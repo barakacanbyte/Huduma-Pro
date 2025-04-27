@@ -61,7 +61,8 @@
                 </div>
                 
                 <div class="edit-modal-content p-6">
-                    <form id="editProfileForm" class="space-y-6">
+                    <form id="editProfileForm" class="space-y-6" action="/profile/worker/update" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <div class="text-center">
                             <div class="relative inline-block">
                                 <img id="profilePreview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2NjYyIgd2lkdGg9IjEwMHB4IiBoZWlnaHQ9IjEwMHB4Ij48cGF0aCBkPSJNMTIgMGMtMi43NTcgMC01IDIuMjQzLTUgNXMyLjI0MyA1IDUgNS01LTIuMjQzLTUtNSAyLjI0My01IDUtNXptMCAxM2MtMy44NTkgMC03IDMuMTQtNyA3aDE0YzAtMy44Ni0zLjE0MS03LTctN3oiLz48L3N2Zz4=" 
@@ -76,32 +77,32 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Jina Kamili</label>
-                                <input type="text" value="Warren Smith" 
+                                <input type="text" value="<%= user.workers[0].full_name %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Mahali</label>
-                                <input type="text" value="Dar es Salaam" 
+                                <input type="text" value="<%= user.workers[0].location || 'Dar es Salaam' %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Namba ya Simu</label>
-                                <input type="tel" value="+255745123456" 
-                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
+                                <input type="tel" value="<%= user.workers[0].phone || 'mfano: +2557123456' %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 text-gray-200" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Barua Pepe</label>
-                                <input type="email" value="john@example.com" 
+                                <input type="email" value="<%= user.email %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Bei kwa Saa (Tsh)</label>
-                                <input type="number" value="2000" 
+                                <input type="number" value="<%= user.workers[0].hourly_rate || 0 %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Uzoefu (Miaka)</label>
-                                <input type="number" value="5" 
+                                <input type="number" value="<%= user.workers[0].experience_years || 0 %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                         </div>
@@ -109,23 +110,26 @@
                         <div>
                             <label class="block text-gray-700 font-semibold mb-2">Stadi Zako</label>
                             <div class="flex flex-wrap gap-2 mb-3" id="skillsContainer">
-                                <span class="skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
-                                    Usafi wa Nyumba
-                                    <button type="button" class="ml-2 text-blue-600 hover:text-blue-800">
+                                <% services.forEach(user_service => {%>
+                                <span class="skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center" data-service-id="<%= user_service.service_id %>">
+                                    <%= user_service.services.service_name %>
+                                    <button type="button" class="remove-skill-btn ml-2 text-blue-600 hover:text-blue-800" data-service-id="<%= user_service.service_id %>">
                                         <i class="fas fa-times text-sm"></i>
                                     </button>
                                 </span>
-                                <span class="skill-chip bg-purple-100 text-purple-800 px-3 py-1 rounded-full flex items-center">
-                                    Usimamizi wa Bustani
-                                    <button type="button" class="ml-2 text-purple-600 hover:text-purple-800">
-                                        <i class="fas fa-times text-sm"></i>
-                                    </button>
-                                </span>
+                                <!-- <input name="services_ids[]" value="<%= user_service.service_id %>" type="hidden" /> -->
+                                <%}); %>  
                             </div>
                             <div class="flex gap-2">
-                                <input type="text" id="newSkill" 
-                                       class="flex-1 p-2 border rounded-lg" 
-                                       placeholder="Ongeza stadi mpya">
+                                <select name="services" id="newSkill" type="text" class="flex-1 p-2 border rounded-lg" 
+                                placeholder="Ongeza stadi mpya">
+                                    <% allServices.forEach(service => { %>
+                                    <option value="<%= service.service_id %>" 
+                                        <%= user.workers[0].services.some(s => s.service_id === service.service_id) ? 'selected' : '' %>>
+                                        <%= service.service_name %>
+                                    </option>
+                                    <% }); %>
+                                </select>
                                 <button type="button" onclick="addSkill()" 
                                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                                     <i class="fas fa-plus"></i>
@@ -212,7 +216,7 @@
                     <h1 class="text-3xl font-bold text-gray-800 mb-2"><%=user.workers[0].full_name%></h1>
                     <div class="flex items-center justify-center text-blue-600 space-x-2">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>Dar es Salaam</span>
+                        <span><%= user.workers[0].location || 'Dar es Salaam'%></span>
                         <span class="text-gray-400">•</span>
                         <i class="fas fa-check-circle text-green-500"></i>
                         <span class="text-green-600">Amehakikiwa</span>
@@ -239,7 +243,7 @@
                         </div>
                     </div>
                     <div class="bg-green-50 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-green-600">5</div>
+                        <div class="text-2xl font-bold text-green-600"><%=user.workers[0].experience_years || 0 %></div>
                         <div class="text-sm text-gray-600">Miaka ya Uzoefu</div>
                         <div class="mt-1 text-green-400">
                             <i class="fas fa-award"></i>
@@ -254,15 +258,11 @@
                             Aina za Huduma
                         </h3>
                         <div class="flex flex-wrap gap-2">
+                            <% services.forEach(user_service => {%>
                             <span class="skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
-                                Usafi wa Nyumba
+                                <%= user_service.services.service_name %>
                             </span>
-                            <span class="skill-chip bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-                                Usimamizi wa Bustani
-                            </span>
-                            <span class="skill-chip bg-green-100 text-green-800 px-3 py-1 rounded-full">
-                                Upishi wa Kienyeji
-                            </span>
+                            <%}); %>
                         </div>
                     </div>
 
@@ -275,7 +275,7 @@
                             <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
                                 <div>
                                     <span class="block text-sm text-gray-600">Bei kwa Saa</span>
-                                    <span class="font-bold text-lg">Tsh 2,000</span>
+                                    <span class="font-bold text-lg">Tsh <%=user.workers[0].hourly_rate || 0 %></span>
                                 </div>
                                 <i class="fas fa-clock text-gray-400 text-xl"></i>
                             </div>
@@ -298,12 +298,12 @@
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-4">
-                    <a href="tel:+255745123456" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl 
+                    <a href="tel:<%=user.workers[0].phone%>" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl 
                         hover:shadow-lg transition-all duration-300 text-center flex items-center justify-center space-x-2">
                         <i class="fas fa-phone-volume"></i>
                         <span>Piga Simu Sasa</span>
                     </a>
-                    <a href="#" class="bg-white border-2 border-blue-600 text-blue-600 px-6 py-4 rounded-xl 
+                    <a href="sms:<%=user.workers[0].phone%>" class="bg-white border-2 border-blue-600 text-blue-600 px-6 py-4 rounded-xl 
                         hover:bg-blue-50 transition-all duration-300 text-center flex items-center justify-center space-x-2">
                         <i class="fas fa-comment-dots"></i>
                         <span>Tuma Ujumbe</span>
@@ -345,83 +345,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        // Edit Profile Functions
-        function toggleEditModal() {
-            const modal = document.getElementById('editProfileModal');
-            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function closeEditModal() {
-            document.getElementById('editProfileModal').style.display = 'none';
-        }
-
-        // Image Preview
-        document.getElementById('profileImage').addEventListener('change', function(e) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                document.getElementById('profilePreview').src = reader.result;
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        });
-
-        // Skills Management
-        function addSkill() {
-            const input = document.getElementById('newSkill');
-            const skill = input.value.trim();
-            
-            if(skill) {
-                const skillElement = document.createElement('span');
-                skillElement.className = 'skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center';
-                skillElement.innerHTML = `
-                    ${skill}
-                    <button type="button" class="ml-2 text-blue-600 hover:text-blue-800" onclick="removeSkill(this)">
-                        <i class="fas fa-times text-sm"></i>
-                    </button>
-                `;
-                document.getElementById('skillsContainer').appendChild(skillElement);
-                input.value = '';
-            }
-        }
-
-        function removeSkill(button) {
-            button.parentElement.remove();
-        }
-
-        // Form Submission
-        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Mabadiliko yamehifadhiwa kikamilifu!');
-            closeEditModal();
-        });
-
-        // Close Modal on Outside Click
-        window.onclick = function(event) {
-            const modal = document.getElementById('editProfileModal');
-            if (event.target === modal) {
-                closeEditModal();
-            }
-        };
-
-        // Notification Functions
-        function toggleNotifications() {
-            const dropdown = document.getElementById('notificationDropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        }
-
-        document.addEventListener('click', (event) => {
-            const dropdown = document.getElementById('notificationDropdown');
-            const bellButton = document.querySelector('[onclick="toggleNotifications()"]');
-            
-            if (!bellButton.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.style.display = 'none';
-            }
-        });
-
-        window.addEventListener('scroll', () => {
-            document.getElementById('notificationDropdown').style.display = 'none';
-        });
-    </script>
+    <script src="/worker.js"></script>
 </body>
 </html>

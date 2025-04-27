@@ -1,10 +1,11 @@
 import services from "../db/servicesQuery.js";
+import { workerQueries } from "../db/workerQueries.js";
 
 //homepage
-const home = async (req, res) => {
-  const servicesList = await services();
+const servicesList = await services();
 
-  console.log("services", servicesList); //debugging
+const home = async (req, res) => {
+  console.log("services profile", servicesList); //debugging
 
   res.render("main", {
     user: req.user || req.session.user,
@@ -32,6 +33,9 @@ const logout = (req, res, next) => {
 //profiles
 
 const profile = async (req, res, next) => {
+  const workerId = req.session.user.workers[0].worker_id;
+  const workerData = await workerQueries.getFullWorkerProfile(workerId);
+  console.log("worker services", workerData.services[0].services.service_name); //debugging
   console.log("Session:", req.session); // Debug session
   console.log("User:", req.session.user); // Debug user object
 
@@ -44,7 +48,11 @@ const profile = async (req, res, next) => {
   if (req.session.user.role === "client") {
     res.render("client-profile", { user: req.session.user });
   } else if (req.session.user.role === "worker") {
-    res.render("worker-profile", { user: req.session.user });
+    res.render("worker-profile", {
+      user: req.session.user,
+      allServices: servicesList,
+      services: workerData.services,
+    });
   } else {
     // Handling unexpected roles
     console.error("Unknown user role:", req.session.user.role); //debugging

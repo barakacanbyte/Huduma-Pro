@@ -11,6 +11,7 @@ import flash from "express-flash";
 import { error } from "console";
 import services from "./db/servicesQuery.js";
 import {home, register, login, logout, profile} from "./routes/routes.js";
+import workerController from "./controllers/workerControllers.js";
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__fileName);
@@ -20,6 +21,7 @@ const app = express();
 
 // Middleware setup
 app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "scripts")));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -68,18 +70,17 @@ app.use((req, res, next) => {
 
 //Routes
 app.get('/', home); //main route
-// app.get('/profile', profile);  //profile route
 
-//temporary post routes, awaiting csrf token debugging
 const router = express.Router();
 
-//profile route
+//profile routes
 router.get('/profile', profile);
+router.post('/profie/worker/update', workerController.updateWorkerProfile)
 
 // router.get('/profile', profile);
 router.post('/register', register, authController.registerUser);
 router.post('/login', login, authController.loginUser);
-router.post('/logout', logout, authController.logoutUser)
+router.post('/logout', logout, authController.logoutUser);
 
 app.use(router);
 

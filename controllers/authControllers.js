@@ -170,21 +170,23 @@ export const authController = {
             user_id: user.user_id,
             full_name: req.body.workerName,
           }])
+          .select('*')
           .single();
 
         if (workerError) throw workerError;
 
-        // // Insert worker services
-        // const servicesToInsert = req.body.workerData.services.map(service => ({
-        //   worker_id: worker.worker_id,
-        //   service_id: service.id,
-        //   price: service.price,
-        //   min_experience: service.experience
-        // }));
+        // Insert worker services
+        const serviceToInsert = [
+          {
+            service_id: req.body.service,
+            worker_id: worker.worker_id
+          }
+        ]
+        
 
-        // await supabase
-        //   .from('worker_services')
-        //   .insert(servicesToInsert);
+        await supabase
+          .from('worker_services')
+          .insert(serviceToInsert);
       }
 
       // Insert roles
