@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="sw">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Huduma Ya Wafanyakazi - Nyumbani</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .glide__bullet.active {
+        background-color: #2563eb;
+        transform: scale(1.2);
+      }
+      .glide__bullet {
+        transition: all 0.3s ease-in-out;
+      }
+      .image-container {
+        height: 250px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Loader -->
+    <div
+      id="loader"
+      class="fixed inset-0 bg-white flex items-center justify-center z-[999]"
+    >
+      <div
+        class="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full"
+      ></div>
+    </div>
+
+    <!-- Navigation -->
+    <header
+      class="bg-blue-600 text-white p-4 shadow-md fixed w-full top-0 z-50"
+    >
+      <nav class="container mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold">Huduma Connect</div>
+        <div class="hidden md:flex space-x-6">
+          <% if (user) { %>
+          <a href="/bookings" class="hover:text-gray-300">Matangazo Yangu</a>
+          <% } %>
+        </div>
+        <div class="flex space-x-4">
+          <% if (!user) { %>
+          <button
+            onclick="showAuthModal('login')"
+            class="bg-white text-blue-600 px-4 py-2 rounded-full shadow-md hover:bg-gray-200 transition"
+          >
+            Ingia
+          </button>
+          <button
+            onclick="showAuthModal('register')"
+            class="bg-white text-green-600 px-4 py-2 rounded-full shadow-md hover:bg-gray-200 transition"
+          >
+            Jiunge
+          </button>
+          <% } else { %>
+          <div class="relative group">
+            <button
+              class="bg-white text-blue-600 px-4 py-2 rounded-full shadow-md hover:bg-gray-200 transition flex items-center"
+            >
+              <span class="mr-2"><%= user.email %></span>
+              <i class="fas fa-chevron-down text-sm"></i>
+            </button>
+            <div
+              class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl hidden group-hover:block"
+            >
+              <a
+                href="/profile"
+                class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                >Wasifu</a
+              >
+              <a
+                href="/bookings"
+                class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+                >Matangazo</a
+              >
+              <form action="/logout" method="POST" class="border-t mt-2">
+                <button
+                  type="submit"
+                  class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
+                >
+                  Ondoka
+                </button>
+              </form>
+            </div>
+          </div>
+          <% } %>
+        </div>
+        <button id="menu-toggle" class="md:hidden text-white text-2xl">
+          ☰
+        </button>
+      </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobileMenu"
+      class="fixed inset-y-0 right-0 w-64 bg-white shadow-xl z-50 p-4 transform translate-x-full transition-transform duration-300"
+    >
+      <button
+        id="close-menu"
+        class="absolute top-4 right-4 text-2xl text-gray-600"
+      >
+        ×
+      </button>
+      <div class="mt-8 space-y-4">
+        <% if (!user) { %>
+        <button
+          onclick="handleMenuClick('login')"
+          class="w-full text-left p-2 hover:bg-blue-50 rounded-lg"
+        >
+          Ingia
+        </button>
+        <button
+          onclick="handleMenuClick('register')"
+          class="w-full text-left p-2 hover:bg-blue-50 rounded-lg"
+        >
+          Jiunge
+        </button>
+        <% } else { %>
+        <a
+          href="/profile"
+          class="block p-2 hover:bg-blue-50 rounded-lg"
+          onclick="return handleMenuClick()"
+          >Wasifu</a
+        >
+        <a
+          href="/bookings"
+          class="block p-2 hover:bg-blue-50 rounded-lg"
+          onclick="return handleMenuClick()"
+          >Matangazo</a
+        >
+        <form
+          action="/logout"
+          method="POST"
+          onsubmit="return handleMenuClick()"
+        >
+          <button
+            type="submit"
+            class="w-full text-left p-2 hover:bg-red-50 text-red-600"
+          >
+            Ondoka
+          </button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section
+        class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center px-6 pt-20"
+      >
+        <div class="max-w-2xl">
+          <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
+            Karibu Huduma Ya Wafanyakazi
+          </h1>
+          <p class="text-lg mb-6">
+            Pata huduma bora kutoka kwa wafanyakazi wenye uzoefu.
+          </p>
+          <% if (!user) { %>
+          <button
+            onclick="showAuthModal('register')"
+            class="inline-block bg-white text-blue-600 px-6 py-3 rounded-full shadow-md hover:bg-gray-100 transition"
+          >
+            Jiunge Sasa
+          </button>
+          <% } else { %>
+          <a
+            href="/bookings"
+            class="inline-block bg-white text-blue-600 px-6 py-3 rounded-full shadow-md hover:bg-gray-100 transition"
+          >
+            Tafuta Huduma
+          </a>
+          <% } %>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section class="py-20">
+        <div class="container mx-auto px-4">
+          <h2
+            class="text-3xl md:text-4xl font-bold mb-12 text-gray-800 text-center"
+          >
+            Huduma Zinazopatikana
+          </h2>
+
+          <div class="glide relative group">
+            <!-- ... (keep your existing services slider code exactly as is) ... -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <% if (!user) { %>
+      <section class="bg-gray-200 py-16 text-center">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">
+            Jiunge Nasi Leo!
+          </h2>
+          <p class="text-gray-600 mb-8 max-w-xl mx-auto">
+            Anza kutumia huduma zetu kwa urahisi na uhakika.
+          </p>
+          <div class="flex justify-center">
+            <button
+              onclick="showAuthModal('register')"
+              class="bg-blue-600 text-white px-8 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
+            >
+              Jiunge Sasa
+            </button>
+          </div>
+        </div>
+      </section>
+      <% } %>
+    </main>
+
+    <!-- Footer -->
+    <!-- ... (keep your existing footer code exactly as is) ... -->
+
+    <!-- Modals -->
+    <% if (!user) { %>
+    <!-- Login Modal -->
+    <div
+      id="loginModal"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+    >
+      <div class="bg-white rounded-xl w-full max-w-md m-4 p-6 relative">
+        <button
+          onclick="hideModal('login')"
+          class="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl"
+        >
+          &times;
+        </button>
+        <h2 class="text-2xl font-bold text-blue-600 text-center mb-4">Ingia</h2>
+        <form class="space-y-4" action="/login" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <% if (error) { %>
+          <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+            <%= error %>
+          </div>
+          <% } %>
+          <div>
+            <label class="block text-gray-700 font-medium mb-1"
+              >Barua Pepe</label
+            >
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="service27@gmail.com"
+              class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Nenosiri</label>
+            <input
+              type="password"
+              name="password"
+              required
+              placeholder="••••••••"
+              class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Ingia
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div
+      id="registerModal"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+    >
+      <div
+        class="bg-white rounded-xl w-full max-w-md m-4 p-6 relative mt-40 mb-[100px]"
+      >
+        <button
+          onclick="hideModal('register')"
+          class="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl"
+        >
+          &times;
+        </button>
+        <h2 class="text-2xl font-bold text-blue-600 text-center mb-4">
+          Jisajili
+        </h2>
+
+        <div class="flex gap-2 mb-6 bg-gray-100 p-1 rounded-lg">
+          <button
+            onclick="showRegisterForm('client')"
+            class="flex-1 py-2 rounded-lg transition-colors"
+            id="clientTab"
+          >
+            Mteja
+          </button>
+          <button
+            onclick="showRegisterForm('worker')"
+            class="flex-1 py-2 rounded-lg transition-colors"
+            id="workerTab"
+          >
+            Mfanyakazi
+          </button>
+        </div>
+
+        <form class="space-y-4" action="/register" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <% if (errors) { %>
+          <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+            <ul>
+              <% errors.forEach(err => { %>
+              <li><%= err.msg %></li>
+              <% }) %>
+            </ul>
+          </div>
+          <% } %>
+
+          <!-- Common Fields -->
+          <div>
+            <label class="block text-gray-700 font-medium mb-1"
+              >Barua Pepe</label
+            >
+            <input
+              type="email"
+              name="email"
+              required
+              class="w-full p-2 border rounded-lg"
+            />
+          </div>
+
+          <div>
+            <label class="block text-gray-700 font-medium mb-1">Nenosiri</label>
+            <input
+              type="password"
+              name="password"
+              required
+              class="w-full p-2 border rounded-lg"
+            />
+          </div>
+
+          <!-- Client Form -->
+          <div id="clientForm">
+            <div class="mb-6">
+              <h4 class="text-md font-semibold mb-3">Taarifa za Mteja</h4>
+              <div>
+                <label class="block text-gray-700 font-medium mb-1"
+                  >Jina Kamili</label
+                >
+                <input
+                  type="text"
+                  name="clientName"
+                  class="w-full p-2 border rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Worker Form -->
+          <div id="workerForm" class="hidden">
+            <div class="mb-6">
+              <h4 class="text-md font-semibold mb-3">Taarifa za Mfanyakazi</h4>
+              <div>
+                <label class="block text-gray-700 font-medium mb-1"
+                  >Jina Kamili</label
+                >
+                <input
+                  type="text"
+                  name="workerName"
+                  class="w-full p-2 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label class="block text-gray-700 font-medium mb-1"
+                  >Aina ya Huduma</label
+                >
+                <select name="service" class="w-full p-2 border rounded-lg">
+                  <option value="">Chagua Huduma</option>
+                  <% services.forEach(service => { %>
+                  <option value="<%= service.service_id %>">
+                    <%= service.service_name %>
+                  </option>
+                  <% }) %>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Jisajili Sasa
+          </button>
+        </form>
+      </div>
+    </div>
+    <% } %>
+
+    <!-- Keep all your original script tags and JavaScript code exactly as is -->
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
+    <script>
+      // Slider Configuration
+      const glideElement = document.querySelector(".glide");
+      if (glideElement && glideElement.children.length > 0) {
+        const glide = new Glide(".glide", {
+          type: "carousel",
+          startAt: 0,
+          perView: 3,
+          gap: 32,
+          autoplay: 5000,
+          hoverpause: true,
+          breakpoints: {
+            1280: { perView: 3 },
+            1024: { perView: 2.5 },
+            768: { perView: 2 },
+            640: { perView: 1.5 },
+            480: { perView: 1 },
+          },
+        });
+
+        glide.on(["run", "move"], () => {
+          document
+            .querySelectorAll(".glide__bullet")
+            .forEach((bullet, index) => {
+              bullet.classList.toggle("active", index === glide.index);
+            });
+        });
+
+        glide.mount();
+      }
+
+      // Modal Handling
+      let activeModal = null;
+
+      function showAuthModal(modalType) {
+        if (activeModal) hideModal(activeModal);
+        const modal = document.getElementById(modalType + "Modal");
+        modal.classList.remove("hidden");
+        gsap.fromTo(
+          modal,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.3,
+            onStart: () => (activeModal = modalType),
+          }
+        );
+      }
+
+      function hideModal(modalType) {
+        const modal = document.getElementById(modalType + "Modal");
+        gsap.to(modal, {
+          opacity: 0,
+          duration: 0.3,
+          onComplete: () => {
+            modal.classList.add("hidden");
+            activeModal = null;
+          },
+        });
+      }
+
+      // Registration Form Switching
+      function showRegisterForm(formType) {
+        const clientTab = document.getElementById("clientTab");
+        const workerTab = document.getElementById("workerTab");
+        const clientForm = document.getElementById("clientForm");
+        const workerForm = document.getElementById("workerForm");
+
+        if (formType === "client") {
+          clientTab.classList.add("bg-blue-600", "text-white");
+          workerTab.classList.remove("bg-blue-600", "text-white");
+          clientForm.classList.remove("hidden");
+          workerForm.classList.add("hidden");
+        } else {
+          workerTab.classList.add("bg-blue-600", "text-white");
+          clientTab.classList.remove("bg-blue-600", "text-white");
+          workerForm.classList.remove("hidden");
+          clientForm.classList.add("hidden");
+        }
+      }
+
+      // Mobile Menu Handling
+      document.addEventListener("DOMContentLoaded", () => {
+        const mobileMenu = document.getElementById("mobileMenu");
+        const menuToggle = document.getElementById("menu-toggle");
+        const closeMenu = document.getElementById("close-menu");
+
+        menuToggle.addEventListener("click", () => {
+          // Show if hidden, hide if shown
+          mobileMenu.classList.toggle("translate-x-full");
+          mobileMenu.classList.toggle("translate-x-0");
+        });
+
+        closeMenu.addEventListener("click", () => {
+          mobileMenu.classList.add("translate-x-full");
+          mobileMenu.classList.remove("translate-x-0");
+        });
+      });
+
+      // Loader Handling
+      window.onload = function () {
+        gsap.to("#loader", {
+          opacity: 0,
+          duration: 1,
+          onComplete: () =>
+            (document.getElementById("loader").style.display = "none"),
+        });
+      };
+
+      // Close modals on outside click
+      window.onclick = function (event) {
+        if (event.target.classList.contains("fixed")) {
+          hideModal(activeModal);
+        }
+      };
+
+      // Form Validation
+      // document.querySelectorAll('form').forEach(form => {
+      //     form.addEventListener('submit', (e) => {
+      //         e.preventDefault();
+      //         const inputs = form.querySelectorAll('input');
+      //         let isValid = true;
+
+      //         inputs.forEach(input => {
+      //             if(!input.value) {
+      //                 input.classList.add('border-red-500');
+      //                 isValid = false;
+      //             } else {
+      //                 input.classList.remove('border-red-500');
+      //             }
+      //         });
+
+      //         if(isValid) {
+      //             alert('Fomu imetumwa kikamilifu!');
+      //             hideModal(activeModal);
+      //         }
+      //     });
+      // });
+    </script>
+  </body>
+</html>
