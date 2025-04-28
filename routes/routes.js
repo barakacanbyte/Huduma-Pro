@@ -33,9 +33,9 @@ const logout = (req, res, next) => {
 //profiles
 
 const profile = async (req, res, next) => {
-  const workerId = req.session.user.workers[0].worker_id;
-  const workerData = await workerQueries.getFullWorkerProfile(workerId);
-  console.log("worker services", workerData.services); //debugging
+  // const workerId = req.session.user.workers[0].worker_id;
+  // const workerData = await workerQueries.getFullWorkerProfile(workerId);
+  // console.log("worker services", workerData.services); //debugging
   console.log("Session:", req.session); // Debug session
   console.log("User:", req.session.user); // Debug user object
 
@@ -48,6 +48,9 @@ const profile = async (req, res, next) => {
   if (req.session.user.role === "client") {
     res.render("client-profile", { user: req.session.user });
   } else if (req.session.user.role === "worker") {
+    const workerId = req.session.user.workers[0].worker_id;
+    const workerData = await workerQueries.getFullWorkerProfile(workerId);
+    console.log("worker services", workerData.services); //debugging
     res.render("worker-profile", {
       user: req.session.user,
       allServices: servicesList,
