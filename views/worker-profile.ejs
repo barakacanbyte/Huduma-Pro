@@ -69,7 +69,7 @@
                                      class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover">
                                 <label class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer hover:bg-blue-700">
                                     <i class="fas fa-camera"></i>
-                                    <input type="file" id="profileImage" class="hidden" accept="image/*">
+                                    <input type="file" name="profileImage" id="profileImage" class="hidden" accept="image/*">
                                 </label>
                             </div>
                         </div>
@@ -77,32 +77,32 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Jina Kamili</label>
-                                <input type="text" value="<%= user.workers[0].full_name %>" 
+                                <input type="text" name="full_name" value="<%= user.workers[0].full_name %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Mahali</label>
-                                <input type="text" value="<%= user.workers[0].location || 'Dar es Salaam' %>" 
+                                <input type="text" name="location" value="<%= user.workers[0].location || 'Dar es Salaam' %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Namba ya Simu</label>
-                                <input type="tel" value="<%= user.workers[0].phone || 'mfano: +2557123456' %>" 
-                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 text-gray-200" required>
+                                <input type="tel" name="phone" value="<%= user.workers[0].phone || 'mfano: +2557123456' %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Barua Pepe</label>
-                                <input type="email" value="<%= user.email %>" 
+                                <input type="email" name="email" value="<%= user.email %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Bei kwa Saa (Tsh)</label>
-                                <input type="number" value="<%= user.workers[0].hourly_rate || 0 %>" 
+                                <input type="number" name="hourly_rate" value="<%= user.workers[0].hourly_rate || 0 %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Uzoefu (Miaka)</label>
-                                <input type="number" value="<%= user.workers[0].experience_years || 0 %>" 
+                                <input type="number" name="experience_years" value="<%= user.workers[0].experience_years || 0 %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                         </div>
@@ -156,11 +156,12 @@
     <!-- Header Section -->
     <header class="profile-header text-white pb-24 pt-8 shadow-lg">
         <nav class="container mx-auto px-4 flex justify-between items-center">
-            <div class="text-2xl font-bold flex items-center">
-                <i class="fas fa-tools mr-2"></i>
-                Huduma Pro
-            </div>
-            
+            <a href="/">
+                <div class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-tools mr-2"></i>
+                    Huduma Connect
+                </div>
+            </a>
             <div class="flex items-center gap-4">
                 <button onclick="toggleEditModal()" class="text-white hover:text-blue-100 flex items-center">
                     <i class="fas fa-edit mr-2"></i>
@@ -345,6 +346,123 @@
             </div>
         </div>
     </footer>
-    <script src="/worker.js"></script>
+    <script>
+        // Edit Profile Functions
+function toggleEditModal() {
+  const modal = document.getElementById("editProfileModal");
+  modal.style.display = modal.style.display === "block" ? "none" : "block";
+}
+
+function closeEditModal() {
+  document.getElementById("editProfileModal").style.display = "none";
+}
+
+// Image Preview
+document
+  .getElementById("profileImage")
+  .addEventListener("change", function (e) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      document.getElementById("profilePreview").src = reader.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  });
+
+// Skills Management
+function addSkill() {
+  const select = document.getElementById('newSkill');
+  const serviceId = select.value;
+  const serviceName = select.options[select.selectedIndex].text;
+  console.log("service id js", serviceId);
+  
+  if (!serviceId) return;
+
+  // Add hidden input
+  const hiddenContainer = document.getElementById('skillsContainer');
+  const newInput = document.createElement('input');
+  newInput.type = 'hidden';
+  newInput.name = 'services[]';
+  newInput.value = serviceId;
+  hiddenContainer.appendChild(newInput);
+
+  // Add visual chip
+  const chip = document.createElement('span');
+  chip.className = 'skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center';
+  chip.dataset.serviceId = serviceId;
+  chip.innerHTML = `
+    ${serviceName}
+    <button type="button" onclick="removeSkill(${serviceId})">
+      <i class="fas fa-times"></i>
+    </button>
+  `;
+  document.getElementById('skillsContainer').appendChild(chip);
+
+  // Disable select option
+  select.options[select.selectedIndex].disabled = true;
+  select.value = '';
+}
+
+// Event delegation for dynamic elements
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.remove-skill-btn')) {
+    const serviceId = e.target.closest('button').dataset.serviceId;
+    removeSkill(serviceId);
+  }
+});
+
+function removeSkill(serviceId) {
+  // Remove hidden input
+  const hiddenInputs = document.querySelectorAll(`input[name="services[]"][value="${serviceId}"]`);
+  hiddenInputs.forEach(input => input.remove());
+
+  // Remove visual chip
+  const chip = document.querySelector(`.skill-chip[data-service-id="${serviceId}"]`);
+  if (chip) chip.remove();
+
+
+  // Re-enable select option
+  const option = document.querySelector(`#newSkill option[value="${serviceId}"]`);
+  if (option) option.disabled = false;
+}
+
+// Form Submission
+document
+  .getElementById("editProfileForm")
+  .addEventListener("submit", function (e) {
+    alert("Mabadiliko yamehifadhiwa kikamilifu!");
+    closeEditModal();
+    this.submit();
+  });
+
+// Close Modal on Outside Click
+window.onclick = function (event) {
+  const modal = document.getElementById("editProfileModal");
+  if (event.target === modal) {
+    closeEditModal();
+  }
+};
+
+// Notification Functions
+function toggleNotifications() {
+  const dropdown = document.getElementById("notificationDropdown");
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+}
+
+document.addEventListener("click", (event) => {
+  const dropdown = document.getElementById("notificationDropdown");
+  const bellButton = document.querySelector(
+    '[onclick="toggleNotifications()"]'
+  );
+
+  if (!bellButton.contains(event.target) && !dropdown.contains(event.target)) {
+    dropdown.style.display = "none";
+  }
+});
+
+window.addEventListener("scroll", () => {
+  document.getElementById("notificationDropdown").style.display = "none";
+});
+    </script>
 </body>
 </html>

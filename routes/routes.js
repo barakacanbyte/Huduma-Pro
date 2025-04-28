@@ -35,7 +35,7 @@ const logout = (req, res, next) => {
 const profile = async (req, res, next) => {
   const workerId = req.session.user.workers[0].worker_id;
   const workerData = await workerQueries.getFullWorkerProfile(workerId);
-  console.log("worker services", workerData.services[0].services.service_name); //debugging
+  console.log("worker services", workerData.services); //debugging
   console.log("Session:", req.session); // Debug session
   console.log("User:", req.session.user); // Debug user object
 
@@ -60,4 +60,10 @@ const profile = async (req, res, next) => {
   }
 };
 
-export { home, register, login, logout, profile };
+//update worker profile
+const updateWorker = (req, res, next) => {
+  console.log("update form submitted:", req.body); // Debug log
+  next();
+};
+
+export { home, register, login, logout, profile, updateWorker };

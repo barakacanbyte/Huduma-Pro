@@ -10,8 +10,8 @@ import { authController } from "./controllers/authControllers.js";
 import flash from "express-flash";
 import { error } from "console";
 import services from "./db/servicesQuery.js";
-import {home, register, login, logout, profile} from "./routes/routes.js";
-import workerController from "./controllers/workerControllers.js";
+import {home, register, login, logout, profile, updateWorker} from "./routes/routes.js";
+import {workerController} from "./controllers/workerControllers.js";
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__fileName);
@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware setup
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "scripts")));
+app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -75,7 +75,7 @@ const router = express.Router();
 
 //profile routes
 router.get('/profile', profile);
-router.post('/profie/worker/update', workerController.updateWorkerProfile)
+router.post('/profile/worker/update',updateWorker, workerController.updateWorkerProfile);
 
 // router.get('/profile', profile);
 router.post('/register', register, authController.registerUser);

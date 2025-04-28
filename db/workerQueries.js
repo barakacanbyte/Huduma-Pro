@@ -44,6 +44,8 @@ export const workerQueries = {
       service_id
     }));
 
+    console.log("services to insert", servicesToInsert); //debugging
+
     const { error } = await supabase
       .from('worker_services')
       .insert(servicesToInsert);

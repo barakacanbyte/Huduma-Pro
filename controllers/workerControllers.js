@@ -27,10 +27,20 @@ export const workerController = {
 //   },
 
   updateWorkerProfile: async (req, res) => {
+    console.log("Update worker profile request body:", req.body); //debugging
     try {
-      const workerId = req.user.worker_id;
-      const { full_name, location, phone, hourly_rate, experience_years, services } = req.body;
-
+      const workerId = req.session.user.workers[0].worker_id;
+      console.log("worker id", workerId); //debugging
+      const { full_name, location, phone, hourly_rate, experience_years } = req.body;
+    
+      // Handle services array (convert to array if single value)
+      let services = req.body.services;
+    //   if (Array.isArray(req.body['services[]'])) {
+    //     services = req.body['services[]'].map(Number).filter(id => !isNaN(id));
+    //   } else if (req.body['services[]']) {
+    //     services = [Number(req.body['services[]'])].filter(id => !isNaN(id));
+    //   }
+  
       // Update worker details
       await workerQueries.updateWorker(workerId, {
         full_name,
@@ -39,18 +49,16 @@ export const workerController = {
         hourly_rate,
         experience_years
       });
-
-      // Update worker services
+      console.log("services to feed", services); //debugging
+      // Update worker services (pass array of service IDs)
       await workerQueries.updateWorkerServices(workerId, services);
-
+  
       req.flash('success', 'Profaili imesasishwa kikamilifu!');
-      res.redirect('/profile/worker');
+      res.redirect('/profile');
     } catch (error) {
       console.error('Update error:', error);
       req.flash('error', 'Hitilafu katika kuhifadhi mabadiliko');
-      res.redirect('/profile/worker');
+      res.redirect('/profile');
     }
   }
 };
-
-export default workerController;
