@@ -30,7 +30,7 @@ export const workerController = {
     try {
       const workerId = req.session.user.workers[0].worker_id;
       console.log("worker id", workerId); //debugging
-      const { full_name, location, phone, hourly_rate, experience_years } =
+      const { full_name, location, phone, hourly_rate, experience_years, bio } =
         req.body;
 
       // Handle services array (convert to array if single value)
@@ -48,6 +48,7 @@ export const workerController = {
         phone,
         hourly_rate,
         experience_years,
+        bio,
       });
       console.log("services to feed", services); //debugging
       // Update worker services (pass array of service IDs)

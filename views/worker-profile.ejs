@@ -79,17 +79,17 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Jina Kamili</label>
-                                <input type="text" name="full_name" value="<%= user.workers[0].full_name %>" 
+                                <input type="text" name="full_name" value="<%= worker.full_name %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Mahali</label>
-                                <input type="text" name="location" value="<%= user.workers[0].location || 'Dar es Salaam' %>" 
+                                <input type="text" name="location" value="<%= worker.location || 'Dar es Salaam' %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-semibold mb-2">Namba ya Simu</label>
-                                <input type="tel" name="phone" value="<%= user.workers[0].phone || 'mfano: +2557123456' %>" 
+                                <input type="tel" name="phone" value="<%= worker.phone || 'mfano: +2557123456' %>" 
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                             <div>
@@ -108,7 +108,12 @@
                                        class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
                             </div>
                         </div>
-
+                        <div>
+                          <label class="block text-gray-700 font-semibold mb-2">Maelezo Mafupi</label>
+                          <textarea name="bio" rows="4" 
+                                    class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400"
+                                    placeholder="Andika maelezo mafupi kuhusu wewe" value="<%= user.workers[0].bio || '' %>"><%= worker.bio || '' %></textarea>
+                      </div>
                         <div>
                             <label class="block text-gray-700 font-semibold mb-2">Stadi Zako</label>
                             <div class="flex flex-wrap gap-2 mb-3" id="skillsContainer">
@@ -219,7 +224,7 @@
                     <h1 class="text-3xl font-bold text-gray-800 mb-2"><%=user.workers[0].full_name%></h1>
                     <div class="flex items-center justify-center text-blue-600 space-x-2">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span><%= user.workers[0].location || 'Dar es Salaam'%></span>
+                        <span><%= worker.location || 'Dar es Salaam'%></span>
                         <span class="text-gray-400">•</span>
                         <i class="fas fa-check-circle text-green-500"></i>
                         <span class="text-green-600">Amehakikiwa</span>
@@ -246,7 +251,7 @@
                         </div>
                     </div>
                     <div class="bg-green-50 p-4 rounded-lg text-center">
-                        <div class="text-2xl font-bold text-green-600"><%=user.workers[0].experience_years || 0 %></div>
+                        <div class="text-2xl font-bold text-green-600"><%= worker.experience_years || 0 %></div>
                         <div class="text-sm text-gray-600">Miaka ya Uzoefu</div>
                         <div class="mt-1 text-green-400">
                             <i class="fas fa-award"></i>
@@ -278,7 +283,7 @@
                             <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
                                 <div>
                                     <span class="block text-sm text-gray-600">Bei kwa Saa</span>
-                                    <span class="font-bold text-lg">Tsh <%=user.workers[0].hourly_rate || 0 %></span>
+                                    <span class="font-bold text-lg">Tsh <%=worker.hourly_rate || 0 %></span>
                                 </div>
                                 <i class="fas fa-clock text-gray-400 text-xl"></i>
                             </div>
@@ -296,6 +301,12 @@
                                 </div>
                                 <i class="fas fa-check-circle text-green-400 text-xl"></i>
                             </div>
+                            <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                              <div>
+                                  <span class="block text-sm text-gray-600">kwanini unichague?</span>
+                                  <span class="text-lg"><%=worker.bio || 'hamna maelezo yoyote kwa sasa' %></span>
+                              </div>
+                          </div>
                         </div>
                     </div>
                 </div>

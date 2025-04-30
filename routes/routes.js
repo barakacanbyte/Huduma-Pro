@@ -73,11 +73,12 @@ const profile = async (req, res, next) => {
     const workerId = req.session.user.workers[0].worker_id;
     const workerData = await workerQueries.getFullWorkerProfile(workerId);
 
-    console.log("worker services", workerData.services); //debugging
+    console.log("worker services", workerData); //debugging
 
     res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
     res.render("worker-profile", {
       user: req.session.user,
+      worker: workerData,
       allServices: servicesList,
       services: workerData.services,
     });
