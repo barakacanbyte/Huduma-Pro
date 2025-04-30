@@ -1,234 +1,653 @@
 <!DOCTYPE html>
 <html lang="sw">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tafuta Huduma</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
         }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-out;
+      }
+      .card-hover {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
     </style>
-</head>
-<body class="bg-gray-100">
-    <header class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 shadow-md fixed w-full top-0 z-50">
-        <nav class="container mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold flex items-center">
-                <i class="fas fa-hands-helping mr-2"></i>
-                Service Connect
-            </div>
-            <div class="hidden md:flex space-x-6">
-                <a href="main.html" class="hover:text-gray-300 transition-colors">Home</a>
-                <a href="client-profile.html" class="hover:text-gray-300 transition-colors">Mteja</a>
-              
-            </div>
-            <button class="md:hidden text-white text-2xl">☰</button>
-        </nav>
+  </head>
+  <body class="bg-gray-100">
+    <header
+      class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 shadow-md fixed w-full top-0 z-50"
+    >
+      <nav class="container mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold flex items-center">
+          <i class="fas fa-hands-helping mr-2"></i>
+          Service Connect
+        </div>
+        <div class="hidden md:flex space-x-6">
+          <a href="/" class="hover:text-gray-300 transition-colors"
+            >Home</a
+          >
+          <a
+            href="/profile"
+            class="hover:text-gray-300 transition-colors"
+            >Profile</a
+          >
+        </div>
+        <button class="md:hidden text-white text-2xl">☰</button>
+      </nav>
     </header>
 
     <main class="mt-18">
-        <!-- Search Section -->
-        <section class="bg-gradient-to-br from-blue-500 to-purple-500 text-white py-16 px-4">
-            <div class="container mx-auto max-w-4xl mt-10">
-                <h1 class="text-4xl md:text-5xl font-bold text-center mb-4">Tafuta Mfanyakazi</h1>
-                <p class="text-lg text-center mb-8">Chagua huduma kwa urahisi na upate mfanyakazi wa kuwania</p>
-                
-                <div class="bg-white rounded-xl shadow-2xl p-6">
-                    <form id="searchForm" class="grid grid-cols-1 md:grid-cols-4 gap-4  bg-white text-black">
-                        <div class="relative">
-                            <select id="serviceType" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 ">
-                                <option value="">Aina ya Huduma</option>
-                                <option value="Usafi">Usafi wa Nyumba</option>
-                                <option value="Bustani">Usimamizi wa Bustani</option>
-                                <option value="Upishi">Upishi wa Kienyeji</option>
-                                <option value="Ulinzi">Ulinzi na Usalama</option>
-                                <option value="Ushonaji">Ushonaji na Urembo</option>
-                            </select>
-                        </div>
-                        
-                        <div class="relative">
-                            <input type="text" id="location" 
-                                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" 
-                                   placeholder="Eneo (Mfano: Dar es Salaam)">
-                        </div>
+      <!-- Search Section -->
+      <section
+        class="bg-gradient-to-br from-blue-500 to-purple-500 text-white py-16 px-4"
+      >
+        <div class="container mx-auto max-w-4xl mt-10">
+          <h1 class="text-4xl md:text-5xl font-bold text-center mb-4">
+            Tafuta Mfanyakazi
+          </h1>
+          <p class="text-lg text-center mb-8">
+            Chagua huduma kwa urahisi na upate mfanyakazi wa kuwania
+          </p>
 
-                        <div class="relative">
-                            <input type="number" id="minExperience" 
-                                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" 
-                                   placeholder="Miaka ya Uzoefu (Chini)">
-                        </div>
+          <div class="bg-white rounded-xl shadow-2xl p-6">
+            <form
+              id="searchForm"
+              class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white text-black"
+            >
+              <div class="relative">
+                <select
+                  id="serviceType"
+                  class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Aina ya Huduma</option>
+                  <option value="Usafi wa Nyumba">Usafi wa Nyumba</option>
+                  <option value="Usimamizi">Usimamizi wa Bustani</option>
+                  <option value="Upishi wa Kienyeji">Upishi wa Kienyeji</option>
+                  <option value="Ulinzi na Usalama">Ulinzi na Usalama</option>
+                  <option value="Ushonaji na Urembo">Ushonaji na Urembo</option>
+                </select>
+              </div>
 
-                        <div class="relative">
-                            <input type="number" id="maxPrice" 
-                                   class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" 
-                                   placeholder="Kiwango cha Bei (Tsh)">
-                        </div>
+              <div class="relative">
+                <input
+                  type="text"
+                  id="location"
+                  class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Eneo (Mfano: Dar es Salaam)"
+                />
+              </div>
 
-                        <button type="submit" 
-                                class="col-span-1 md:col-span-4 bg-gradient-to-r from-green-500 to-green-600 text-white p-3 rounded-lg hover:from-green-600 hover:to-green-700 transition-all flex items-center justify-center space-x-2">
-                            <i class="fas fa-search"></i>
-                            <span>Tafuta Sasa</span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="minExperience"
+                  class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Miaka ya Uzoefu (Chini)"
+                />
+              </div>
 
-        <!-- Results Section -->
-        <section class="container mx-auto p-6">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-                <h2 class="text-3xl font-semibold text-gray-800 mb-4 md:mb-0">Wafanyakazi Walio Patikana</h2>
-                <div class="flex space-x-4">
-                    <select id="sortBy" class="p-2 border rounded-lg">
-                        <option value="rating">Panga kwa Ukadiriaji</option>
-                        <option value="experience">Panga kwa Uzoefu</option>
-                        <option value="price">Panga kwa Bei</option>
-                    </select>
-                </div>
-            </div>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="maxPrice"
+                  class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Kiwango cha Bei (Tsh)"
+                />
+              </div>
 
-            <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Results will be inserted here -->
-            </div>
+              <button
+                type="submit"
+                class="col-span-1 md:col-span-4 bg-gradient-to-r from-green-500 to-green-600 text-white p-3 rounded-lg hover:from-green-600 hover:to-green-700 transition-all flex items-center justify-center space-x-2"
+              >
+                <i class="fas fa-search"></i>
+                <span>Tafuta Sasa</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
 
-            <div id="loading" class="hidden text-center py-8">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                <p class="mt-4 text-gray-600">Inatafuta wafanyakazi...</p>
-            </div>
-        </section>
+      <!-- Results Section -->
+      <section class="container mx-auto p-6">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center mb-8"
+        >
+          <h2 class="text-3xl font-semibold text-gray-800 mb-4 md:mb-0">
+            Wafanyakazi Walio Patikana
+          </h2>
+          <div class="flex space-x-4">
+            <select id="sortBy" class="p-2 border rounded-lg">
+              <option value="rating">Panga kwa Ukadiriaji</option>
+              <option value="experience">Panga kwa Uzoefu</option>
+              <option value="price">Panga kwa Bei</option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          id="results"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Results will be inserted here -->
+        </div>
+
+        <div id="loading" class="hidden text-center py-8">
+          <div
+            class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
+          ></div>
+          <p class="mt-4 text-gray-600">Inatafuta wafanyakazi...</p>
+        </div>
+      </section>
     </main>
 
     <footer class="bg-gray-800 text-white text-center p-6 mt-12">
-        <p class="mb-2">&copy; 2025 HudumaPro. Haki zote zimehifadhiwa.</p>
-        <div class="flex justify-center space-x-4">
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-whatsapp"></i></a>
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="hover:text-blue-400"><i class="fab fa-instagram"></i></a>
-        </div>
+      <p class="mb-2">&copy; 2025 HudumaPro. Haki zote zimehifadhiwa.</p>
+      <div class="flex justify-center space-x-4">
+        <a href="#" class="hover:text-blue-400"
+          ><i class="fab fa-whatsapp"></i
+        ></a>
+        <a href="#" class="hover:text-blue-400"
+          ><i class="fab fa-facebook"></i
+        ></a>
+        <a href="#" class="hover:text-blue-400"
+          ><i class="fab fa-instagram"></i
+        ></a>
+      </div>
     </footer>
+    <div id="worker-data" data-workers='<%- JSON.stringify(workers) %>'></div>
+
 
     <script>
-        // Mock Database (Replace with real API calls)
-        const workers = [
-            { 
-                id: 1,
-                name: "John Doe",
-                service: "Usafi",
-                location: "Dar es Salaam",
-                experience: 2,
-                rating: 4.5,
-                price: 15000,
-                image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
-                bio: "Mtaalamu wa usafi wa nyumba kwa miaka 2. Najivunia kutoa huduma bora na kwa wakati."
-            },
-            { 
-                id: 2,
-                name: "Amina Mwajuma",
-                service: "Bustani",
-                location: "Dodoma",
-                experience: 3,
-                rating: 4.7,
-                price: 20000,
-                image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=600",
-                bio: "Mtaalamu wa bustani na ustawi wa mimea. Nimefanya miradi 50+ ya ubunifu wa bustani."
-            },
-            { 
-                id: 3,
-                name: "Hassan Juma",
-                service: "Upishi",
-                location: "Arusha",
-                experience: 5,
-                rating: 4.8,
-                price: 25000,
-                image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600",
-                bio: "Mpishi mwenye uzoefu wa miaka 5 katika upishi wa vyakula vya kienyeji na kimataifa."
-            }
-        ];
+      const workers = JSON.parse(document.getElementById('worker-data').dataset.workers);
+      console.log(workers);
 
-        // Search Functionality
-        document.getElementById("searchForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const resultsContainer = document.getElementById("results");
-            const loading = document.getElementById("loading");
-            
-            // Show loading
-            resultsContainer.innerHTML = '';
-            loading.classList.remove('hidden');
+      // Mock Database (Replace with real API calls)
+      // const workers = [
+      //   {
+      //     id: 1,
+      //     name: "John Doe",
+      //     service: "Usafi",
+      //     location: "Dar es Salaam",
+      //     experience: 2,
+      //     rating: 4.5,
+      //     price: 15000,
+      //     image:
+      //       "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mtaalamu wa usafi wa nyumba kwa miaka 2. Najivunia kutoa huduma bora na kwa wakati.",
+      //   },
+      //   {
+      //     id: 2,
+      //     name: "Amina Mwajuma",
+      //     service: "Bustani",
+      //     location: "Dodoma",
+      //     experience: 3,
+      //     rating: 4.7,
+      //     price: 20000,
+      //     image:
+      //       "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mtaalamu wa bustani na ustawi wa mimea. Nimefanya miradi 50+ ya ubunifu wa bustani.",
+      //   },
+      //   {
+      //     id: 3,
+      //     name: "Hassan Juma",
+      //     service: "Upishi",
+      //     location: "Arusha",
+      //     experience: 5,
+      //     rating: 4.8,
+      //     price: 25000,
+      //     image:
+      //       "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mpishi mwenye uzoefu wa miaka 5 katika upishi wa vyakula vya kienyeji na kimataifa.",
+      //   },
+      //   {
+      //     id: 4,
+      //     name: "Fatma Salim",
+      //     service: "Usafi",
+      //     location: "Mwanza",
+      //     experience: 1,
+      //     rating: 4.2,
+      //     price: 12000,
+      //     image:
+      //       "https://images.pexels.com/photos/3768911/pexels-photo-3768911.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Natoa huduma za usafi wa nyumba na ofisi kwa umakini mkubwa.",
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "Juma Kweka",
+      //     service: "Ulinzi",
+      //     location: "Mbeya",
+      //     experience: 4,
+      //     rating: 4.6,
+      //     price: 18000,
+      //     image:
+      //       "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mlinzi mwenye mafunzo rasmi na uzoefu wa kazi katika maeneo ya biashara.",
+      //   },
+      //   {
+      //     id: 6,
+      //     name: "Zubeda Hashim",
+      //     service: "Uoshaji Magari",
+      //     location: "Tanga",
+      //     experience: 3,
+      //     rating: 4.4,
+      //     price: 10000,
+      //     image:
+      //       "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Nafanya usafi wa magari kwa umakini na kutumia vifaa vya kisasa.",
+      //   },
+      //   {
+      //     id: 7,
+      //     name: "Mohamed Saidi",
+      //     service: "Bustani",
+      //     location: "Morogoro",
+      //     experience: 2,
+      //     rating: 4.1,
+      //     price: 17000,
+      //     image:
+      //       "https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mtaalamu wa bustani na upandaji miti na maua ya mapambo.",
+      //   },
+      //   {
+      //     id: 8,
+      //     name: "Halima Yusuf",
+      //     service: "Upishi",
+      //     location: "Iringa",
+      //     experience: 6,
+      //     rating: 4.9,
+      //     price: 30000,
+      //     image:
+      //       "https://images.pexels.com/photos/3184192/pexels-photo-3184192.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mpishi wa vyakula vya sherehe na huduma za catering kwa matukio makubwa.",
+      //   },
+      //   {
+      //     id: 9,
+      //     name: "Abdallah Nuhu",
+      //     service: "Usafi",
+      //     location: "Kigoma",
+      //     experience: 2,
+      //     rating: 4.3,
+      //     price: 13000,
+      //     image:
+      //       "https://images.pexels.com/photos/3781547/pexels-photo-3781547.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Huduma za usafi wa majengo mapya na ofisi, na uzoefu na vifaa.",
+      //   },
+      //   {
+      //     id: 10,
+      //     name: "Neema Mwakalukwa",
+      //     service: "Ususi",
+      //     location: "Dar es Salaam",
+      //     experience: 5,
+      //     rating: 4.7,
+      //     price: 18000,
+      //     image:
+      //       "https://images.pexels.com/photos/1674752/pexels-photo-1674752.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mtaalamu wa mitindo ya nywele na ususi wa kisasa kwa wanawake.",
+      //   },
+      //   {
+      //     id: 11,
+      //     name: "Sauda Rashid",
+      //     service: "Upishi",
+      //     location: "Tabora",
+      //     experience: 3,
+      //     rating: 4.5,
+      //     price: 22000,
+      //     image:
+      //       "https://images.pexels.com/photos/3768146/pexels-photo-3768146.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Ninapika chakula kitamu na salama, naweza pia kufanya catering.",
+      //   },
+      //   {
+      //     id: 12,
+      //     name: "Kelvin Mrema",
+      //     service: "Ulinzi",
+      //     location: "Lindi",
+      //     experience: 6,
+      //     rating: 4.9,
+      //     price: 25000,
+      //     image:
+      //       "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mlinzi aliyebobea na uzoefu wa kazi kwenye majengo ya serikali na makazi binafsi.",
+      //   },
+      //   {
+      //     id: 13,
+      //     name: "Sarah Joseph",
+      //     service: "Usafi",
+      //     location: "Songea",
+      //     experience: 1,
+      //     rating: 4.0,
+      //     price: 11000,
+      //     image:
+      //       "https://images.pexels.com/photos/374574/pexels-photo-374574.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Huduma bora ya usafi wa haraka na ufanisi kwenye nyumba na maeneo ya biashara.",
+      //   },
+      //   {
+      //     id: 14,
+      //     name: "Yusuph Ally",
+      //     service: "Bustani",
+      //     location: "Singida",
+      //     experience: 4,
+      //     rating: 4.6,
+      //     price: 19000,
+      //     image:
+      //       "https://images.pexels.com/photos/1308881/pexels-photo-1308881.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mtaalamu wa bustani, umwagiliaji na kutunza mandhari ya mazingira.",
+      //   },
+      //   {
+      //     id: 15,
+      //     name: "Rehema Sefu",
+      //     service: "Ususi",
+      //     location: "Mtwara",
+      //     experience: 3,
+      //     rating: 4.3,
+      //     price: 16000,
+      //     image:
+      //       "https://images.pexels.com/photos/1987301/pexels-photo-1987301.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Nabobea kwenye mitindo mbalimbali ya ususi wa kisasa na wa kitamaduni.",
+      //   },
+      //   {
+      //     id: 16,
+      //     name: "Adam Peter",
+      //     service: "Usafi",
+      //     location: "Geita",
+      //     experience: 2,
+      //     rating: 4.2,
+      //     price: 14000,
+      //     image:
+      //       "https://images.pexels.com/photos/356079/pexels-photo-356079.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Natoa huduma za usafi wa ndani na nje ya nyumba kwa kutumia kemikali salama.",
+      //   },
+      //   {
+      //     id: 17,
+      //     name: "Zainabu Musa",
+      //     service: "Bustani",
+      //     location: "Njombe",
+      //     experience: 5,
+      //     rating: 4.7,
+      //     price: 21000,
+      //     image:
+      //       "https://images.pexels.com/photos/36753/flower-purple-lical-blosso.jpg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Nafanya mandhari ya bustani kuvutia kwa kutumia mimea ya mapambo.",
+      //   },
+      //   {
+      //     id: 18,
+      //     name: "Bakari Omar",
+      //     service: "Ulinzi",
+      //     location: "Manyara",
+      //     experience: 3,
+      //     rating: 4.4,
+      //     price: 17000,
+      //     image:
+      //       "https://images.pexels.com/photos/428339/pexels-photo-428339.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mlinzi aliye na rekodi safi ya kazi ya ulinzi katika maeneo ya makazi na biashara.",
+      //   },
+      //   {
+      //     id: 19,
+      //     name: "Grace Paul",
+      //     service: "Upishi",
+      //     location: "Shinyanga",
+      //     experience: 4,
+      //     rating: 4.6,
+      //     price: 24000,
+      //     image:
+      //       "https://images.pexels.com/photos/3184190/pexels-photo-3184190.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Upishi wa vyakula vya aina mbalimbali, pia huduma za chakula kwa ofisi.",
+      //   },
+      //   {
+      //     id: 20,
+      //     name: "Hamza Said",
+      //     service: "Uoshaji Magari",
+      //     location: "Kagera",
+      //     experience: 2,
+      //     rating: 4.2,
+      //     price: 9000,
+      //     image:
+      //       "https://images.pexels.com/photos/4792490/pexels-photo-4792490.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Huduma ya kuosha magari kwa uangalifu, ndani na nje ya gari.",
+      //   },
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+      //   // You can repeat similarly up to id: 30
+      //   {
+      //     id: 21,
+      //     name: "Yohana Matata",
+      //     service: "Usafi",
+      //     location: "Mara",
+      //     experience: 1,
+      //     rating: 4.0,
+      //     price: 12000,
+      //     image:
+      //       "https://images.pexels.com/photos/4239015/pexels-photo-4239015.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Ninatoa huduma ya usafi kwa familia na makampuni madogo.",
+      //   },
+      //   {
+      //     id: 22,
+      //     name: "Doris Mallya",
+      //     service: "Ususi",
+      //     location: "Dar es Salaam",
+      //     experience: 4,
+      //     rating: 4.8,
+      //     price: 20000,
+      //     image:
+      //       "https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Ususi wa nywele wa kisasa, dreadlocks, na mitindo mingine ya mitaani.",
+      //   },
+      //   {
+      //     id: 23,
+      //     name: "Edward Kisamo",
+      //     service: "Ulinzi",
+      //     location: "Rukwa",
+      //     experience: 5,
+      //     rating: 4.7,
+      //     price: 22000,
+      //     image:
+      //       "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mlinzi wa makazi, ofisi na matukio maalum kama harusi au sherehe.",
+      //   },
+      //   {
+      //     id: 24,
+      //     name: "Mariam Abdul",
+      //     service: "Upishi",
+      //     location: "Dodoma",
+      //     experience: 2,
+      //     rating: 4.3,
+      //     price: 20000,
+      //     image:
+      //       "https://images.pexels.com/photos/769289/pexels-photo-769289.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Ninapika vyakula vya nyumbani na upishi wa chakula cha haraka pia.",
+      //   },
+      //   {
+      //     id: 25,
+      //     name: "Simon Kijana",
+      //     service: "Uoshaji Magari",
+      //     location: "Tabora",
+      //     experience: 3,
+      //     rating: 4.5,
+      //     price: 10000,
+      //     image:
+      //       "https://images.pexels.com/photos/4100658/pexels-photo-4100658.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Uzoefu wa kuosha magari kwa kutumia mashine maalum na bidhaa bora.",
+      //   },
+      //   {
+      //     id: 26,
+      //     name: "Happy Njau",
+      //     service: "Bustani",
+      //     location: "Iringa",
+      //     experience: 2,
+      //     rating: 4.4,
+      //     price: 15000,
+      //     image:
+      //       "https://images.pexels.com/photos/1974501/pexels-photo-1974501.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Natoa huduma ya kuandaa bustani mpya na ukarabati wa bustani za zamani.",
+      //   },
+      //   {
+      //     id: 27,
+      //     name: "Grace Kaaya",
+      //     service: "Ususi",
+      //     location: "Mtwara",
+      //     experience: 3,
+      //     rating: 4.5,
+      //     price: 18000,
+      //     image:
+      //       "https://images.pexels.com/photos/4046302/pexels-photo-4046302.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Nabobea kwenye mitindo ya ususi kwa watoto, wanawake, na harusi.",
+      //   },
+      //   {
+      //     id: 28,
+      //     name: "Farid Mohammed",
+      //     service: "Ulinzi",
+      //     location: "Mbeya",
+      //     experience: 4,
+      //     rating: 4.6,
+      //     price: 23000,
+      //     image:
+      //       "https://images.pexels.com/photos/838413/pexels-photo-838413.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Mlinzi mwenye nidhamu na mafunzo ya usalama binafsi na mali.",
+      //   },
+      //   {
+      //     id: 29,
+      //     name: "Mary Mdee",
+      //     service: "Upishi",
+      //     location: "Tanga",
+      //     experience: 2,
+      //     rating: 4.1,
+      //     price: 19000,
+      //     image:
+      //       "https://images.pexels.com/photos/1543773/pexels-photo-1543773.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Huduma ya chakula nyumbani na kwenye matukio, pia catering services.",
+      //   },
+      //   {
+      //     id: 30,
+      //     name: "George Sanga",
+      //     service: "Uoshaji Magari",
+      //     location: "Kigoma",
+      //     experience: 1,
+      //     rating: 4.0,
+      //     price: 8000,
+      //     image:
+      //       "https://images.pexels.com/photos/89778/pexels-photo-89778.jpeg?auto=compress&cs=tinysrgb&w=600",
+      //     bio: "Natoa huduma ya kuosha magari kwa wateja waliopo nyumbani au kazini.",
+      //   },
+      // ];
 
-            // Get search parameters
-            const serviceType = document.getElementById("serviceType").value;
-            const location = document.getElementById("location").value.toLowerCase();
-            const minExperience = parseInt(document.getElementById("minExperience").value) || 0;
-            const maxPrice = parseInt(document.getElementById("maxPrice").value) || Infinity;
-            const sortBy = document.getElementById("sortBy").value;
+      // Search Functionality
+      document
+        .getElementById("searchForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const resultsContainer = document.getElementById("results");
+          const loading = document.getElementById("loading");
 
-            // Filter workers
-            let filteredWorkers = workers.filter(worker => {
-                return (!serviceType || worker.service === serviceType) &&
-                       (!location || worker.location.toLowerCase().includes(location)) &&
-                       (worker.experience >= minExperience) &&
-                       (worker.price <= maxPrice);
-            });
+          // Show loading
+          resultsContainer.innerHTML = "";
+          loading.classList.remove("hidden");
 
-            // Sort results
-            filteredWorkers.sort((a, b) => b[sortBy] - a[sortBy]);
+          // Simulate API call
+          await new Promise((resolve) => setTimeout(resolve, 1000));
 
-            // Display results
-            loading.classList.add('hidden');
-            resultsContainer.innerHTML = filteredWorkers.length > 0 
-                ? filteredWorkers.map(worker => createWorkerCard(worker)).join('')
-                : `<div class="col-span-full text-center py-8">
+          // Get search parameters
+          const serviceType = document.getElementById("serviceType").value;
+          const location = document
+            .getElementById("location")
+            .value.toLowerCase();
+          const minExperience =
+            parseInt(document.getElementById("minExperience").value) || 0;
+          const maxPrice =
+            parseInt(document.getElementById("maxPrice").value) || Infinity;
+          const sortBy = document.getElementById("sortBy").value;
+
+          // Filter workers
+          let filteredWorkers = workers.filter((worker) => {
+  const hasMatchingService = !serviceType || 
+    (worker.services || []).some(service => 
+      service?.services?.service_name === serviceType
+    );
+  
+  const hasMatchingLocation = !location || 
+    worker.location?.toLowerCase().includes(location.toLowerCase());
+  
+  return (
+    hasMatchingService &&
+    hasMatchingLocation &&
+    worker.experience_years >= minExperience &&
+    worker.hourly_rate <= maxPrice
+  );
+});
+
+          // Sort results
+          filteredWorkers.sort((a, b) => b[sortBy] - a[sortBy]);
+
+          // Display results
+          loading.classList.add("hidden");
+          resultsContainer.innerHTML =
+            filteredWorkers.length > 0
+              ? filteredWorkers
+                  .map((worker) => createWorkerCard(worker))
+                  .join("")
+              : `<div class="col-span-full text-center py-8">
                         <i class="fas fa-search-minus text-4xl text-gray-400 mb-4"></i>
                         <p class="text-xl text-gray-600">Hakuna mfanyakazi aliyepatikana kwa vigezo ulivyoweka</p>
                    </div>`;
 
-            // Add fade-in animation
-            document.querySelectorAll('.worker-card').forEach(card => {
-                card.classList.add('fade-in');
-            });
+          // Add fade-in animation
+          document.querySelectorAll(".worker-card").forEach((card) => {
+            card.classList.add("fade-in");
+          });
         });
 
-        // Create Worker Card Component
-        function createWorkerCard(worker) {
-            return `
+      // Create Worker Card Component
+      function createWorkerCard(worker) {
+        const servicesDisplay = worker.services?.length 
+    ? worker.services.map(service => 
+        `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm mr-2 mb-2">
+          ${service?.services?.service_name || 'Huduma'}
+        </span>`
+      ).join('')
+    : '<span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">Hamna huduma kwa sasa</span>';
+        return `
                 <div class="worker-card bg-white rounded-xl shadow-md overflow-hidden card-hover">
-                    <img src="${worker.image}" alt="${worker.name}" class="w-full h-48 object-cover">
+                    <img src="${worker.user.image_url}" alt="${
+          worker.name
+        }" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold">${worker.name}</h3>
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">${worker.service}</span>
+                            <h3 class="text-xl font-bold">${worker.full_name}</h3>
+                            ${servicesDisplay}
                         </div>
                         <div class="space-y-2 text-gray-600">
-                            <p><i class="fas fa-map-marker-alt mr-2"></i>${worker.location}</p>
-                            <p><i class="fas fa-clock mr-2"></i>Uzoefu: ${worker.experience} Miaka</p>
-                            <p><i class="fas fa-coins mr-2"></i>Bei kwa Siku: Tsh ${worker.price.toLocaleString()}</p>
+                            <p><i class="fas fa-map-marker-alt mr-2"></i>${
+                              worker.location
+                            }</p>
+                            <p><i class="fas fa-clock mr-2"></i>Uzoefu: ${
+                              worker.experience_years || "hamna"
+                            } Miaka</p>
+                            <p><i class="fas fa-coins mr-2"></i>Bei kwa Siku: Tsh ${worker.hourly_rate?.toLocaleString() || 0}</p>
                             <div class="flex items-center">
-                                <div class="text-yellow-500 mr-2">${'⭐'.repeat(Math.floor(worker.rating))}</div>
-                                <span class="text-sm">(${worker.rating})</span>
+                                <span class="text-sm">(not rated)</span>
                             </div>
                         </div>
                         <p class="mt-4 text-gray-700">${worker.bio}</p>
                         <div class="mt-6 flex justify-between items-center">
-                            <a href="booking.html?id=${worker.id}" 
+                            <button onclick="showBookingMessage('${worker.worker_id}')"
                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                                <i class="fas fa-calendar-check mr-2"></i>Weka Ombi
-                            </a>
+                            </button>
                             <button class="text-blue-600 hover:text-blue-800">
                                 <i class="fas fa-ellipsis-h"></i>
                             </button>
@@ -236,11 +655,16 @@
                     </div>
                 </div>
             `;
-        }
+      }
 
-        // Initialize with all workers
-        document.getElementById("results").innerHTML = workers.map(worker => createWorkerCard(worker)).join('');
+      function showBookingMessage(workerId) {
+        alert("This link will send you to the booking page.");
+      }
+
+      // Initialize with all workers
+      document.getElementById("results").innerHTML = workers
+        .map((worker) => createWorkerCard(worker))
+        .join("");
     </script>
-</body>
+  </body>
 </html>
-

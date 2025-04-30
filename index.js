@@ -10,8 +10,10 @@ import { authController } from "./controllers/authControllers.js";
 import flash from "express-flash";
 import { error } from "console";
 import services from "./db/servicesQuery.js";
-import {home, register, login, logout, profile, updateWorker} from "./routes/routes.js";
+import {home, register, login, logout,profile, updateWorker, updateClient} from "./routes/routes.js";
 import {workerController} from "./controllers/workerControllers.js";
+import { clientController } from "./controllers/clientControllers.js";
+import { ServiceSearchController } from "./controllers/serviceSearchControllers.js";
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__fileName);
@@ -76,11 +78,15 @@ const router = express.Router();
 //profile routes
 router.get('/profile', profile);
 router.post('/profile/worker/update',updateWorker, workerController.updateWorkerProfile);
+router.post('/profile/client/update',updateClient, clientController.updateClientProfile);
 
 // router.get('/profile', profile);
 router.post('/register', register, authController.registerUser);
 router.post('/login', login, authController.loginUser);
 router.post('/logout', logout, authController.logoutUser);
+
+//search services router
+router.get('/client/services/find', ServiceSearchController.getFullWorkers);
 
 app.use(router);
 

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profaili ya Mfanyakazi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .profile-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        }
+        .profile-picture-container {
+            margin-top: -80px;
+            position: relative;
+            z-index: 10;
+        }
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            min-width: 300px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1000;
+        }
+        .skill-chip {
+            transition: all 0.3s ease;
+        }
+        .skill-chip:hover {
+            transform: translateY(-2px);
+        }
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+        .edit-modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="edit-modal">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl w-full max-w-3xl relative mt-[-40px]">
+                <div class="flex justify-between items-center p-6 border-b">
+                    <h3 class="text-2xl font-bold">Hariri Profaili</h3>
+                    <button onclick="closeEditModal()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="edit-modal-content p-6">
+                    <form id="editProfileForm" class="space-y-6" action="/profile/worker/update" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="text-center">
+                            <div class="relative inline-block">
+                                <img id="profilePreview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2NjYyIgd2lkdGg9IjEwMHB4IiBoZWlnaHQ9IjEwMHB4Ij48cGF0aCBkPSJNMTIgMGMtMi43NTcgMC01IDIuMjQzLTUgNXMyLjI0MyA1IDUgNS01LTIuMjQzLTUtNSAyLjI0My01IDUtNXptMCAxM2MtMy44NTkgMC03IDMuMTQtNyA3aDE0YzAtMy44Ni0zLjE0MS03LTctN3oiLz48L3N2Zz4=" 
+                                     class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover">
+                                <label class="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full cursor-pointer hover:bg-blue-700">
+                                    <i class="fas fa-camera"></i>
+                                    <input type="file" name="profileImage" id="profileImage" class="hidden" accept="image/*">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Jina Kamili</label>
+                                <input type="text" name="full_name" value="<%= user.workers[0].full_name %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Mahali</label>
+                                <input type="text" name="location" value="<%= user.workers[0].location || 'Dar es Salaam' %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Namba ya Simu</label>
+                                <input type="tel" name="phone" value="<%= user.workers[0].phone || 'mfano: +2557123456' %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Barua Pepe</label>
+                                <input type="email" name="email" value="<%= user.email %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Bei kwa Saa (Tsh)</label>
+                                <input type="number" name="hourly_rate" value="<%= user.workers[0].hourly_rate || 0 %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-semibold mb-2">Uzoefu (Miaka)</label>
+                                <input type="number" name="experience_years" value="<%= user.workers[0].experience_years || 0 %>" 
+                                       class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-2">Stadi Zako</label>
+                            <div class="flex flex-wrap gap-2 mb-3" id="skillsContainer">
+                                <% services.forEach(user_service => {%>
+                                <span class="skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center" data-service-id="<%= user_service.service_id %>">
+                                    <%= user_service.services.service_name %>
+                                    <button type="button" class="remove-skill-btn ml-2 text-blue-600 hover:text-blue-800" data-service-id="<%= user_service.service_id %>">
+                                        <i class="fas fa-times text-sm"></i>
+                                    </button>
+                                </span>
+                                <!-- <input name="services_ids[]" value="<%= user_service.service_id %>" type="hidden" /> -->
+                                <%}); %>  
+                            </div>
+                            <div class="flex gap-2">
+                                <select name="services" id="newSkill" type="text" class="flex-1 p-2 border rounded-lg" 
+                                placeholder="Ongeza stadi mpya">
+                                    <% allServices.forEach(service => { %>
+                                    <option value="<%= service.service_id %>" 
+                                        <%= user.workers[0].services.some(s => s.service_id === service.service_id) ? 'selected' : '' %>>
+                                        <%= service.service_name %>
+                                    </option>
+                                    <% }); %>
+                                </select>
+                                <button type="button" onclick="addSkill()" 
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3 pt-6">
+                            <button type="button" onclick="closeEditModal()" 
+                                    class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Ghairi
+                            </button>
+                            <button type="submit" 
+                                    class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                Hifadhi Mabadiliko
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="profile-header text-white pb-24 pt-8 shadow-lg">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="/">
+                <div class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-tools mr-2"></i>
+                    Huduma Connect
+                </div>
+            </a>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleEditModal()" class="text-white hover:text-blue-100 flex items-center">
+                    <i class="fas fa-edit mr-2"></i>
+                    Hariri Profaili
+                </button>
+                <div class="relative">
+                    <button onclick="toggleNotifications()" class="bg-white text-blue-600 px-4 py-2 rounded-full hover:bg-gray-100 transition-all relative">
+                        <i class="fas fa-bell mr-2"></i>Arifa
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">2</span>
+                    </button>
+                    
+                    <div id="notificationDropdown" class="notification-dropdown p-4 text-black">
+                        <h3 class="text-lg font-semibold mb-4">Arifa Zako</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg ">
+                                <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                                <div class="text-black">
+                                    <p class="font-medium">Ombi lako limepokelewa</p>
+                                    <p class="text-sm text-gray-700">2 saa zilizopita</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start p-3 bg-gray-50 rounded-lg">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <div class="text-black">
+                                    <p class="font-medium">Malipo yamepokelewa</p>
+                                    <p class="text-sm text-gray-700">Jana 14:32</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="block text-center text-blue-600 mt-4 hover:underline">
+                            Angalia Arifa Zote
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Profile Picture -->
+    <div class="container mx-auto px-4">
+        <div class="profile-picture-container">
+            <div class="w-32 h-32 rounded-full bg-blue-100 border-4 border-white shadow-lg flex items-center justify-center mx-auto">
+                <i class="fas fa-user-tie text-blue-600 text-5xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-8 pb-12">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2"><%=user.workers[0].full_name%></h1>
+                    <div class="flex items-center justify-center text-blue-600 space-x-2">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><%= user.workers[0].location || 'Dar es Salaam'%></span>
+                        <span class="text-gray-400">•</span>
+                        <i class="fas fa-check-circle text-green-500"></i>
+                        <span class="text-green-600">Amehakikiwa</span>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-blue-50 p-4 rounded-lg text-center">
+                        <div class="text-2xl font-bold text-blue-600">4.8</div>
+                        <div class="text-sm text-gray-600">Ukadiriaji</div>
+                        <div class="mt-1 text-yellow-400 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg text-center">
+                        <div class="text-2xl font-bold text-purple-600">150+</div>
+                        <div class="text-sm text-gray-600">Kazi Zilizokamilika</div>
+                        <div class="mt-1 text-purple-400">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg text-center">
+                        <div class="text-2xl font-bold text-green-600"><%=user.workers[0].experience_years || 0 %></div>
+                        <div class="text-sm text-gray-600">Miaka ya Uzoefu</div>
+                        <div class="mt-1 text-green-400">
+                            <i class="fas fa-award"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-tools text-blue-500 mr-2"></i>
+                            Aina za Huduma
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <% services.forEach(user_service => {%>
+                            <span class="skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                                <%= user_service.services.service_name %>
+                            </span>
+                            <%}); %>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-money-bill-wave text-green-500 mr-2"></i>
+                            Maelezo ya Huduma
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                                <div>
+                                    <span class="block text-sm text-gray-600">Bei kwa Saa</span>
+                                    <span class="font-bold text-lg">Tsh <%=user.workers[0].hourly_rate || 0 %></span>
+                                </div>
+                                <i class="fas fa-clock text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+                                <div>
+                                    <span class="block text-sm text-gray-600">Kiasi cha Chini</span>
+                                    <span class="font-bold text-lg">Saa 2</span>
+                                </div>
+                                <i class="fas fa-stopwatch text-gray-400 text-xl"></i>
+                            </div>
+                            <div class="flex justify-between items-center bg-green-50 p-3 rounded-lg">
+                                <div>
+                                    <span class="block text-sm text-green-600">Hali ya Upokeaji</span>
+                                    <span class="font-bold text-lg">Inapatikana</span>
+                                </div>
+                                <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <a href="tel:<%=user.workers[0].phone%>" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-xl 
+                        hover:shadow-lg transition-all duration-300 text-center flex items-center justify-center space-x-2">
+                        <i class="fas fa-phone-volume"></i>
+                        <span>Piga Simu Sasa</span>
+                    </a>
+                    <a href="sms:<%=user.workers[0].phone%>" class="bg-white border-2 border-blue-600 text-blue-600 px-6 py-4 rounded-xl 
+                        hover:bg-blue-50 transition-all duration-300 text-center flex items-center justify-center space-x-2">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Tuma Ujumbe</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gradient-to-br from-gray-800 to-gray-900 text-white py-12 mt-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold mb-4">Huduma Pro</h3>
+                    <p class="text-gray-400 text-sm">
+                        Kuunganisha wafanyakazi wenye ujuzi na wateja kwa ufanisi na uaminifu.
+                    </p>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Viungo Muhimu</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Sheria na Masharti</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Msaada wa Teknolojia</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Maswali Yanayoulizwa</a></li>
+                    </ul>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Tuungane</h4>
+                    <div class="flex space-x-4 text-xl">
+                        <a href="#" class="hover:text-green-400"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="hover:text-purple-400"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 mt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2024 Huduma Pro. Haki zote zimehifadhiwa</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Edit Profile Functions
+function toggleEditModal() {
+  const modal = document.getElementById("editProfileModal");
+  modal.style.display = modal.style.display === "block" ? "none" : "block";
+}
+
+function closeEditModal() {
+  document.getElementById("editProfileModal").style.display = "none";
+}
+
+// Image Preview
+document
+  .getElementById("profileImage")
+  .addEventListener("change", function (e) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      document.getElementById("profilePreview").src = reader.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  });
+
+// Skills Management
+function addSkill() {
+  const select = document.getElementById('newSkill');
+  const serviceId = select.value;
+  const serviceName = select.options[select.selectedIndex].text;
+  console.log("service id js", serviceId);
+  
+  if (!serviceId) return;
+
+  // Add hidden input
+  const hiddenContainer = document.getElementById('skillsContainer');
+  const newInput = document.createElement('input');
+  newInput.type = 'hidden';
+  newInput.name = 'services[]';
+  newInput.value = serviceId;
+  hiddenContainer.appendChild(newInput);
+
+  // Add visual chip
+  const chip = document.createElement('span');
+  chip.className = 'skill-chip bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center';
+  chip.dataset.serviceId = serviceId;
+  chip.innerHTML = `
+    ${serviceName}
+    <button type="button" onclick="removeSkill(${serviceId})">
+      <i class="fas fa-times"></i>
+    </button>
+  `;
+  document.getElementById('skillsContainer').appendChild(chip);
+
+  // Disable select option
+  select.options[select.selectedIndex].disabled = true;
+  select.value = '';
+}
+
+// Event delegation for dynamic elements
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.remove-skill-btn')) {
+    const serviceId = e.target.closest('button').dataset.serviceId;
+    removeSkill(serviceId);
+  }
+});
+
+function removeSkill(serviceId) {
+  // Remove hidden input
+  const hiddenInputs = document.querySelectorAll(`input[name="services[]"][value="${serviceId}"]`);
+  hiddenInputs.forEach(input => input.remove());
+
+  // Remove visual chip
+  const chip = document.querySelector(`.skill-chip[data-service-id="${serviceId}"]`);
+  if (chip) chip.remove();
+
+
+  // Re-enable select option
+  const option = document.querySelector(`#newSkill option[value="${serviceId}"]`);
+  if (option) option.disabled = false;
+}
+
+// Form Submission
+document
+  .getElementById("editProfileForm")
+  .addEventListener("submit", function (e) {
+    alert("Mabadiliko yamehifadhiwa kikamilifu!");
+    closeEditModal();
+    this.submit();
+  });
+
+// Close Modal on Outside Click
+window.onclick = function (event) {
+  const modal = document.getElementById("editProfileModal");
+  if (event.target === modal) {
+    closeEditModal();
+  }
+};
+
+// Notification Functions
+function toggleNotifications() {
+  const dropdown = document.getElementById("notificationDropdown");
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+}
+
+document.addEventListener("click", (event) => {
+  const dropdown = document.getElementById("notificationDropdown");
+  const bellButton = document.querySelector(
+    '[onclick="toggleNotifications()"]'
+  );
+
+  if (!bellButton.contains(event.target) && !dropdown.contains(event.target)) {
+    dropdown.style.display = "none";
+  }
+});
+
+window.addEventListener("scroll", () => {
+  document.getElementById("notificationDropdown").style.display = "none";
+});
+    </script>
+</body>
+</html>

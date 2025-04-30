@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Huduma Ya Wafanyakazi - Nyumbani</title>
+    <title>Service Connect</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link
+
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css"
     />
@@ -41,28 +42,28 @@
 
     <!-- Navigation -->
     <header
-      class="bg-blue-600 text-white p-4 shadow-md fixed w-full top-0 z-50"
+      class="backdrop-blur text-white p-4 shadow-md fixed w-full top-0 z-50"
     >
       <nav class="container mx-auto flex justify-between items-center">
-        <div class="text-2xl font-bold">Huduma Connect</div>
+        <div class="text-xm:text-xl md:text-3xl font-bold inline-block animate-pulse">Service Connect</div>
         <div class="hidden md:flex space-x-6">
           <% if (user) { %>
-          <a href="/bookings" class="hover:text-gray-300">Matangazo Yangu</a>
+          <!-- <a href="/bookings" class="hover:text-gray-300">Matangazo Yangu</a> -->
           <% } %>
         </div>
-        <div class="flex space-x-4">
+        <div class="hidden md:flex space-x-4">
           <% if (!user) { %>
           <button
             onclick="showAuthModal('login')"
-            class="bg-white text-blue-600 px-4 py-2 rounded-full shadow-md hover:bg-gray-200 transition"
+            class="text-white px-4 py-2 rounded-full shadow-sm hover:text-blue-600 transition font-bold"
           >
-            Ingia
+            Log in
           </button>
           <button
             onclick="showAuthModal('register')"
-            class="bg-white text-green-600 px-4 py-2 rounded-full shadow-md hover:bg-gray-200 transition"
+            class="text-white px-4 py-2 rounded-full shadow-sm hover:text-green-600 transition font-bold"
           >
-            Jiunge
+            Sign Up
           </button>
           <% } else { %>
           <div class="relative group">
@@ -78,19 +79,19 @@
               <a
                 href="/profile"
                 class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
-                >Wasifu</a
+                >Profile</a
               >
-              <a
+              <!-- <a
                 href="/bookings"
                 class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
                 >Matangazo</a
-              >
+              > -->
               <form action="/logout" method="POST" class="border-t mt-2">
                 <button
                   type="submit"
                   class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50"
                 >
-                  Ondoka
+                  Log out
                 </button>
               </form>
             </div>
@@ -112,35 +113,35 @@
         id="close-menu"
         class="absolute top-4 right-4 text-2xl text-gray-600"
       >
-        ×
+        <span class="text-4xl hover:bg-black hover:text-white rounded-full px-2">×</span>
       </button>
       <div class="mt-8 space-y-4">
         <% if (!user) { %>
         <button
-          onclick="handleMenuClick('login')"
+          onclick="showAuthModal('login')"
           class="w-full text-left p-2 hover:bg-blue-50 rounded-lg"
         >
-          Ingia
+          Login
         </button>
         <button
-          onclick="handleMenuClick('register')"
+          onclick="showAuthModal('register')"
           class="w-full text-left p-2 hover:bg-blue-50 rounded-lg"
         >
-          Jiunge
+          Sign Up
         </button>
         <% } else { %>
         <a
           href="/profile"
           class="block p-2 hover:bg-blue-50 rounded-lg"
           onclick="return handleMenuClick()"
-          >Wasifu</a
+          >Client</a
         >
-        <a
+        <!-- <a
           href="/bookings"
           class="block p-2 hover:bg-blue-50 rounded-lg"
           onclick="return handleMenuClick()"
           >Matangazo</a
-        >
+        > -->
         <form
           action="/logout"
           method="POST"
@@ -150,50 +151,146 @@
             type="submit"
             class="w-full text-left p-2 hover:bg-red-50 text-red-600"
           >
-            Ondoka
+            Logout
           </button>
         </form>
         <% } %>
       </div>
     </div>
     <!-- Main Content -->
-    <main>
+    <main class="overflow-hidden">
       <!-- Hero Section -->
       <section
-        class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center px-6 pt-20"
+        class="min-h-dvh flex items-center justify-center text-white text-center px-6 pt-20"
       >
-        <div class="max-w-2xl">
+
+       <!-- Background Image -->
+       <div class="absolute inset-0 z-0">
+        <img src="images/background.jpg" 
+             alt="Background"
+             class="w-full h-full object-cover transform scale-105"
+             style="filter: brightness(0.7);">
+    </div>
+
+             <!--Content Container -->
+        <div class="max-w-2xl relative z-10">
           <h1 class="text-4xl md:text-5xl font-extrabold mb-4">
-            Karibu Huduma Ya Wafanyakazi
+            Welcome to Service Connect
           </h1>
           <p class="text-lg mb-6">
-            Pata huduma bora kutoka kwa wafanyakazi wenye uzoefu.
+            Get the best service from experienced staff.
           </p>
           <% if (!user) { %>
           <button
             onclick="showAuthModal('register')"
             class="inline-block bg-white text-blue-600 px-6 py-3 rounded-full shadow-md hover:bg-gray-100 transition"
           >
-            Jiunge Sasa
+             Learn More
           </button>
           <% } else { %>
           <a
-            href="/bookings"
+            href="#"
             class="inline-block bg-white text-blue-600 px-6 py-3 rounded-full shadow-md hover:bg-gray-100 transition"
           >
-            Tafuta Huduma
+            Learn More
           </a>
           <% } %>
         </div>
       </section>
 
+
+         
+      <!-- About US Section -->
+      <div class="bg-gray-100 text-gray-800" id="about">
+        <section class="bg-white px-6 py-20 md:px-20">
+          <div class="mx-auto max-w-6xl">
+            <h2 class="mb-8 text-4xl font-extrabold text-blue-700">
+              About Our Platform
+            </h2>
+            <p class="max-w-4xl text-lg leading-relaxed text-gray-700">
+              Our platform is a trusted digital space built to simplify life by
+              connecting people with skilled, part-time professionals ready to
+              help with tasks like
+              <span class="font-medium text-blue-500">gardening</span>,
+              <span class="font-medium text-blue-500">laundry</span>,
+              <span class="font-medium text-blue-500">guarding</span>,
+              <span class="font-medium text-blue-500">catering</span>,
+              <span class="font-medium text-blue-500">sewing</span>, and more.
+              It’s a smart solution for modern living—offering flexibility,
+              convenience, and quality on demand. <br /><br />
+              We aim to empower everyday users by giving them fast, secure
+              access to reliable help, while also creating fair job
+              opportunities for workers looking to earn flexibly and grow
+              professionally. This isn’t just a service platform—it’s a
+              people-powered ecosystem designed to elevate lives, reduce stress,
+              and support communities.
+              <br /><br />
+              As a business, it’s powerful. With growing demand for part-time
+              support and digital access to trusted labor, our platform stands
+              out as both impactful and sustainable—blending tech innovation
+              with real-world solutions.
+            </p>
+          </div>
+        </section>
+
+        <!-- Stats Cards Section -->
+        <section class="bg-blue-50 px-6 py-16 md:px-20">
+          <div class="mx-auto max-w-6xl">
+            <h3 class="mb-10 text-3xl font-bold text-blue-700">
+              Our Monthly Impact
+            </h3>
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <!-- Card 1 -->
+              <div
+                class="rounded-2xl border-l-4 border-blue-600 bg-white p-6 shadow-lg transition-all duration-500 hover:scale-105"
+              >
+                <h4 class="mb-2 text-lg font-semibold text-blue-600">
+                  Customers Reached
+                </h4>
+                <p class="text-3xl font-bold text-gray-900">5,200+</p>
+                <p class="mt-1 text-base text-gray-500">
+                  Individuals served across all service categories.
+                </p>
+              </div>
+
+              <!-- Card 2 -->
+              <div
+                class="rounded-2xl border-l-4 border-blue-600 bg-white p-6 shadow-lg transition-all delay-100 duration-500 hover:scale-105"
+              >
+                <h4 class="mb-2 text-lg font-semibold text-blue-600">
+                  Monthly Revenue
+                </h4>
+                <p class="text-3xl font-bold text-gray-900">$18,450</p>
+                <p class="mt-1 text-base text-gray-500">
+                  Earned through customer bookings and service fees.
+                </p>
+              </div>
+
+              <!-- Card 3 -->
+              <div
+                class="rounded-2xl border-l-4 border-blue-600 bg-white p-6 shadow-lg transition-all delay-200 duration-500 hover:scale-105"
+              >
+                <h4 class="mb-2 text-lg font-semibold text-blue-600">
+                  Active Workers
+                </h4>
+                <p class="text-3xl font-bold text-gray-900">1,150+</p>
+                <p class="mt-1 text-base text-gray-500">
+                  Verified professionals available across all sectors.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+
       <!-- Services Section -->
-      <section class="py-20">
+      <section class="py-2 p-0" id="services">
         <div class="container mx-auto px-4">
           <h2
             class="text-3xl md:text-4xl font-bold mb-12 text-gray-800 text-center"
           >
-            Huduma Zinazopatikana
+            Services Available
           </h2>
 
           <div class="glide relative group">
@@ -202,61 +299,61 @@
                   <!-- Service Cards -->
                   <li class="glide__slide px-2">
                       <div class="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 h-full p-6">
-                          <div class="image-container rounded-xl mb-10">
-                              <img src="/images/hygiene.webp" alt="Usafi" class="w-full h-full object-cover">
+                          <div class="image-container rounded-xl mb-6">
+                              <img src="/images/hygiene.webp" alt="Usafi" class="w-full h-full object-cover  transform hover:scale-105">
                           </div>
-                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Usafi</h3>
-                          <p class="text-gray-600">Pata wafanyakazi wa usafi walio karibu na wewe.</p>
+                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Cleaning</h3>
+                          <p class="text-gray-600">Get best cleaners near your area and live with good hygiene.</p>
                       </div>
                   </li>
                   
                   <li class="glide__slide px-2">
                       <div class="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 h-full p-6">
-                          <div class="image-container rounded-xl mb-10">
-                              <img src="/images/gardening.jpg" alt="Bustani" class="w-full h-full object-cover">
+                          <div class="image-container rounded-xl mb-6">
+                              <img src="/images/gardening.jpg" alt="Bustani" class="w-full h-full object-cover transform hover:scale-105">
                           </div>
-                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Bustani</h3>
-                          <p class="text-gray-600">Huduma za bustani na upandaji miti.</p>
+                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Gardening</h3>
+                          <p class="text-gray-600">Gardening and planting trees services for tidy environment.</p>
                       </div>
                   </li>
 
                   <li class="glide__slide px-2">
                       <div class="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 h-full p-6">
                           <div class="image-container rounded-xl mb-4">
-                              <img src="/images/tea.jpg" alt="Upishi" class="w-full h-full object-cover">
+                              <img src="/images/catering.jpg" alt="catering" class="w-full h-full object-cover transform hover:scale-105 ">
                           </div>
-                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Upishi</h3>
-                          <p class="text-gray-600">Pata wapishi bora wa chakula safi na kitamu.</p>
+                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Catering</h3>
+                          <p class="text-gray-600 mb-2">Get well trained personels in catering different services.</p>
                       </div>
                   </li>
 
                   <li class="glide__slide px-2">
                       <div class="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 h-full p-6">
                           <div class="image-container rounded-xl mb-4">
-                              <img src="" alt="Ulinzi" class="w-full h-full object-cover">
+                              <img src="/images/security.jpg" alt="Ulinzi" class="w-full h-full object-cover transform hover:scale-105">
                           </div>
-                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Ulinzi</h3>
-                          <p class="text-gray-600">Walinzi wa kuwalinda nyumba na biashara zako</p>
+                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Security</h3>
+                          <p class="text-gray-600 mb-2">Get security experts to be at your service.</p>
                       </div>
                   </li>
 
                   <li class="glide__slide px-2">
                       <div class="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 h-full p-6">
                           <div class="image-container rounded-xl mb-4">
-                              <img src="/images/repair.jpg" alt="Ukarabati" class="w-full h-full object-cover">
+                              <img src="/images/repair.jpg" alt="Ukarabati" class="w-full h-full object-cover transform hover:scale-105">
                           </div>
-                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Ukarabati</h3>
-                          <p class="text-gray-600">Ukarabati wa nyumba, umeme na mabomba</p>
+                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Repair</h3>
+                          <p class="text-gray-600 mb-2">Quick fix of house and office hardwares .</p>
                       </div>
                   </li>
 
                   <li class="glide__slide px-2">
                       <div class="bg-white shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 h-full p-6">
                           <div class="image-container rounded-xl mb-4">
-                              <img src="/images/transport.jpg" alt="Usafiri" class="w-full h-full object-cover">
+                              <img src="/images/transport.jpg" alt="Usafiri" class="w-full h-full object-cover transform hover:scale-105">
                           </div>
-                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Usafiri</h3>
-                          <p class="text-gray-600">Madereva wa kuepusha na usafiri wa bidhaa</p>
+                          <h3 class="text-2xl font-bold text-blue-600 mb-2">Transport</h3>
+                          <p class="text-gray-600 mb-2">Book cargo trucks also get delivery services.</p>
                       </div>
                   </li>
               </ul>
@@ -286,21 +383,252 @@
       </section>
 
       <!-- Call to Action -->
+
+
       <% if (!user) { %>
-      <section class="bg-gray-200 py-16 text-center">
-        <div class="container mx-auto px-4">
-          <h2 class="text-3xl font-bold text-gray-800 mb-4">
-            Jiunge Nasi Leo!
+      <section class="bg-gray-200 py-16 text-center" id="mission">
+           
+         
+           <!-- Our Mission Section -->
+        <section class="py-20 px-6 md:px-20">
+          <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-blue-700 mb-10">Our Mission</h2>
+
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              <!-- Mission 1 -->
+              <div
+                class="bg-blue-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:scale-105 border-l-4 border-blue-600"
+              >
+                <div class="flex items-center mb-4">
+                  <div
+                    class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h4 class="ml-3 text-lg font-semibold text-blue-700">
+                    Simplify Everyday Life
+                  </h4>
+                </div>
+                <p class="text-gray-600 text-base">
+                  We strive to make people's lives easier by offering fast and
+                  reliable solutions to common daily challenges through trusted
+                  help.
+                </p>
+              </div>
+
+              <!-- Mission 2 -->
+              <div
+                class="bg-blue-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:scale-105 border-l-4 border-blue-600"
+              >
+                <div class="flex items-center mb-4">
+                  <div
+                    class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 17v-6a3 3 0 116 0v6"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 12h14"
+                      />
+                    </svg>
+                  </div>
+                  <h4 class="ml-3 text-lg font-semibold text-blue-700">
+                    Empower Local Talent
+                  </h4>
+                </div>
+                <p class="text-gray-600 text-base">
+                  Our mission is to give workers fair opportunities to earn,
+                  learn, and grow while contributing to their communities.
+                </p>
+              </div>
+
+              <!-- Mission 3 -->
+              <div
+                class="bg-blue-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:scale-105 border-l-4 border-blue-600"
+              >
+                <div class="flex items-center mb-4">
+                  <div
+                    class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 10h4l3 10h8l3-10h4"
+                      />
+                    </svg>
+                  </div>
+                  <h4 class="ml-3 text-lg font-semibold text-blue-700">
+                    Build a Fair Economy
+                  </h4>
+                </div>
+                <p class="text-gray-600 text-base">
+                  We’re creating a balanced platform where everyone—users and
+                  workers—benefit from value, security, and trust.
+                </p>
+              </div>
+
+              <!-- Mission 4 -->
+              <div
+                class="bg-blue-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:scale-105 border-l-4 border-blue-600"
+              >
+                <div class="flex items-center mb-4">
+                  <div
+                    class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                  </div>
+                  <h4 class="ml-3 text-lg font-semibold text-blue-700">
+                    Create Lasting Impact
+                  </h4>
+                </div>
+                <p class="text-gray-600 text-base">
+                  We believe in building long-term, positive impact in people’s
+                  lives through consistency, trust, and innovation.
+                </p>
+              </div>
+
+              <!-- Mission 5 -->
+              <div
+                class="bg-blue-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:scale-105 border-l-4 border-blue-600"
+              >
+                <div class="flex items-center mb-4">
+                  <div
+                    class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M20 13V9a8 8 0 10-16 0v4"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 21h16"
+                      />
+                    </svg>
+                  </div>
+                  <h4 class="ml-3 text-lg font-semibold text-blue-700">
+                    Promote Trust & Safety
+                  </h4>
+                </div>
+                <p class="text-gray-600 text-base">
+                  We work to build confidence in every transaction by ensuring
+                  worker verification, fair policies, and safe connections.
+                </p>
+              </div>
+
+              <!-- Mission 6 -->
+              <div
+                class="bg-blue-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition duration-300 hover:scale-105 border-l-4 border-blue-600"
+              >
+                <div class="flex items-center mb-4">
+                  <div
+                    class="bg-blue-600 text-white w-10 h-10 flex items-center justify-center rounded-full"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 11c0 2-2 4-2 4s-2-2-2-4a2 2 0 014 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 20h12"
+                      />
+                    </svg>
+                  </div>
+                  <h4 class="ml-3 text-lg font-semibold text-blue-700">
+                    Bring Digital to Daily Life
+                  </h4>
+                </div>
+                <p class="text-gray-600 text-base">
+                  We bridge the gap between tech and real-world needs, making it
+                  easy for people to get help with just a few taps.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <div class="container mx-auto px-4 border-t-2 border-gray-300 pt-10">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4" id="join">
+            Join us now and experience the difference
           </h2>
           <p class="text-gray-600 mb-8 max-w-xl mx-auto">
-            Anza kutumia huduma zetu kwa urahisi na uhakika.
+            Start using our services with ease and certainty.
           </p>
           <div class="flex justify-center">
             <button
               onclick="showAuthModal('register')"
               class="bg-blue-600 text-white px-8 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors"
             >
-              Jiunge Sasa
+              Join Now
             </button>
           </div>
         </div>
@@ -308,132 +636,183 @@
       <% } %>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gradient-to-br from-blue-900 to-purple-900 text-white relative overflow-hidden py-16">
-      <!-- Wave Design -->
-      <div class="absolute inset-0 bg-wave-pattern opacity-10"></div>
-    
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          <!-- Organization Info -->
-          <div class="mb-8 md:col-span-2">
-            <h2 class="text-3xl font-bold mb-4 flex items-center">
-              <img src="" alt="" class="h-12 mr-3">
-              Service Connect
-            </h2>
-            <p class="text-gray-200 text-lg leading-relaxed max-w-xl">
-              Tunawaunganisha na wafanyakazi bora kwenye mitaa yako. Pata huduma kwa urahisi na uhakika.
-            </p>
-            
-            <!-- Social Media -->
-            <div class="mt-8 flex space-x-4">
-              <a href="#" class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-all">
-                <i class="fab fa-whatsapp text-xl"></i>
-              </a>
-              <a href="#" class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-all">
-                <i class="fab fa-facebook-messenger text-xl"></i>
-              </a>
-              <a href="#" class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-all">
-                <i class="fab fa-instagram text-xl"></i>
-              </a>
-              <a href="#" class="p-3 bg-white/10 rounded-full hover:bg-white/20 transition-all">
-                <i class="fab fa-twitter text-xl"></i>
-              </a>
-            </div>
-          </div>
-    
-          <!-- Quick Links -->
-          <div class="mb-8">
-            <h3 class="text-xl font-semibold mb-6 border-b-2 border-blue-400 pb-2">Viungo Muhimu</h3>
-            <ul class="space-y-3">
-              <li>
-                <a href="#" class="flex items-center text-gray-200 hover:text-white transition-colors">
-                  <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
-                  Wanachama
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-200 hover:text-white transition-colors">
-                  <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
-                  Mafunzo
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-200 hover:text-white transition-colors">
-                  <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
-                  Viwango vya Huduma
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center text-gray-200 hover:text-white transition-colors">
-                  <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
-                  Tovuti Yetu
-                </a>
-              </li>
-            </ul>
-          </div>
-    
-          <!-- Connect With Us -->
-          <div class="mb-8">
-            <h3 class="text-xl font-semibold mb-6 border-b-2 border-blue-400 pb-2">Tuungane Nasi</h3>
-            <ul class="space-y-4">
-              <li class="flex items-start">
-                <i class="fas fa-phone-volume text-blue-400 mt-1 mr-3"></i>
-                <div>
-                  <p class="font-medium">Simu</p>
-                  <p class="text-gray-200">+255 712 345 678</p>
-                  <p class="text-gray-200">+255 784 567 890</p>
-                </div>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-envelope-open-text text-blue-400 mt-1 mr-3"></i>
-                <div>
-                  <p class="font-medium">Barua Pepe</p>
-                  <p class="text-gray-200">support@hudumaconnect.co.tz</p>
-                </div>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-map-marker-alt text-blue-400 mt-1 mr-3"></i>
-                <div>
-                  <p class="font-medium">Eneo Letu</p>
-                  <p class="text-gray-200">Mikocheni B, Dar es Salaam</p>
-                  <p class="text-gray-200">Tanzania</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-    
-        <!-- Copyright & Legal -->
-        <div class="border-t border-white/20 mt-12 pt-8">
-          <div class="flex flex-col md:flex-row justify-between items-center">
-            <p class="text-gray-300 text-center md:text-left mb-4 md:mb-0">
-              © 2025 Huduma Connect. Haki zote zimehifadhiwa
-            </p>
-            <div class="flex space-x-6">
-              <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Sheria</a>
-              <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Masharti</a>
-              <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Faragha</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+ <!-- Footer -->
+ <footer
+ class="bg-gradient-to-br from-blue-900 to-purple-900 text-white relative overflow-hidden py-16"
+>
+ <!-- Wave Design -->
+ <div class="absolute inset-0 bg-wave-pattern opacity-10"></div>
+
+ <div class="container mx-auto px-4 relative z-10">
+   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+     <!-- Organization Info -->
+     <div class="mb-8 md:col-span-2">
+       <h2 class="text-3xl font-bold mb-4 flex items-center">
+         <img src="" alt="" class="h-12 mr-3" />
+         Service Connect
+       </h2>
+       <p class="text-gray-200 text-lg leading-relaxed max-w-xl">
+           We connect you with the best workers<br> in your area. Get services easily and reliably.
+       </p>
+
+       <!-- Social Media -->
+       <div class="mt-8 flex space-x-4">
+         <a
+           href="#"
+           class="p-4 bg-white/10 rounded-full  transition-all border:rounded-full"
+         >
+           <i class="fab fa-whatsapp text-2xl hover:text-black"></i>
+         </a>
+         <a
+           href="#"
+           class="p-4 bg-white/10 rounded-full  transition-all"
+         >
+           <i class="fab fa-facebook-messenger text-2xl hover:text-black"></i>
+         </a>
+         <a
+           href="#"
+           class="p-4 bg-white/10 rounded-full transition-all"
+         >
+           <i class="fab fa-instagram text-2xl hover:text-black"></i>
+           
+         </a>
+         <a
+           href="#"
+           class="p-4 bg-white/10 rounded-full  transition-all "
+         >
+           <i class="fab fa-twitter text-2xl hover:text-black "></i>
+         </a>
+       </div>
+     </div>
+
+     <!-- Quick Links -->
+     <div class="mb-8">
+       <h3
+         class="text-xl font-semibold mb-6 border-b-2 border-blue-400 pb-2"
+       >
+         Quick Links
+       </h3>
+       <ul class="space-y-3">
+         <li>
+           <a
+             href="#join"
+             class="flex items-center text-gray-200 hover:text-white transition-colors"
+           >
+             <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
+             Membership
+           </a>
+         </li>
+         <li>
+           <a
+             href="#services"
+             class="flex items-center text-gray-200 hover:text-white transition-colors"
+           >
+             <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
+             Services
+           </a>
+         </li>
+         <li>
+           <a
+             href="#mission"
+             class="flex items-center text-gray-200 hover:text-white transition-colors"
+           >
+             <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
+             Our mission
+           </a>
+         </li>
+         <li>
+           <a
+             href="#about"
+             class="flex items-center text-gray-200 hover:text-white transition-colors"
+           >
+             <i class="fas fa-angle-double-right text-blue-400 mr-2"></i>
+             About Us
+           </a>
+         </li>
+       </ul>
+     </div>
+
+     <!-- Connect With Us -->
+     <div class="mb-8">
+       <h3
+         class="text-xl font-semibold mb-6 border-b-2 border-blue-400 pb-2"
+       >
+         Join Us
+       </h3>
+       <ul class="space-y-4">
+         <li class="flex items-start">
+           <i class="fas fa-phone-volume text-blue-400 mt-1 mr-3"></i>
+           <div>
+             <p class="font-medium">Phone</p>
+             <p class="text-gray-200">+255 712 345 678</p>
+             <p class="text-gray-200">+255 784 567 890</p>
+           </div>
+         </li>
+         <li class="flex items-start">
+           <i
+             class="fas fa-envelope-open-text text-blue-400 mt-1 mr-3"
+           ></i>
+           <div>
+             <p class="font-medium">Email</p>
+             <p class="text-gray-200">support@serviceconnect.co.tz</p>
+           </div>
+         </li>
+         <li class="flex items-start">
+           <i class="fas fa-map-marker-alt text-blue-400 mt-1 mr-3"></i>
+           <div>
+             <p class="font-medium">Location</p>
+             <p class="text-gray-200">Mikocheni B, Dar es Salaam</p>
+             <p class="text-gray-200">Tanzania</p>
+           </div>
+         </li>
+       </ul>
+     </div>
+   </div>
+
+   <!-- Copyright & Legal -->
+   <div class="border-t border-white/20 mt-12 pt-8">
+     <div class="flex flex-col md:flex-row justify-between items-center">
+       <p class="text-gray-300 text-center md:text-left mb-4 md:mb-0">
+         © 2025 Service Connect. All rights reserved
+       </p>
+       <div class="flex space-x-6">
+         <a
+           href="#"
+           class="text-gray-300 hover:text-blue-400 transition-colors"
+           >Laws</a
+         >
+         <a
+           href="#"
+           class="text-gray-300 hover:text-blue-400 transition-colors"
+           >Terms</a
+         >
+         <a
+           href="#"
+           class="text-gray-300 hover:text-blue-400 transition-colors"
+           >Privacy</a
+         >
+       </div>
+     </div>
+   </div>
+ </div>
+</footer>
+
+
     <!-- Modals -->
     <% if (!user) { %>
     <!-- Login Modal -->
     <div
       id="loginModal"
-      class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-[60]"
     >
-      <div class="bg-white rounded-xl w-full max-w-md m-4 p-6 relative">
+      <div class="bg-white rounded-xl w-full max-w-md m-4 p-6 relative z-[70]">
         <button
           onclick="hideModal('login')"
           class="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl"
         >
           &times;
         </button>
-        <h2 class="text-2xl font-bold text-blue-600 text-center mb-4">Ingia</h2>
+        <h2 class="text-2xl font-bold text-blue-600 text-center mb-4">Login</h2>
         <form class="space-y-4" action="/login" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <% if (error) { %>
@@ -443,7 +822,7 @@
           <% } %>
           <div>
             <label class="block text-gray-700 font-medium mb-1"
-              >Barua Pepe</label
+              >Email</label
             >
             <input
               type="email"
@@ -454,7 +833,7 @@
             />
           </div>
           <div>
-            <label class="block text-gray-700 font-medium mb-1">Nenosiri</label>
+            <label class="block text-gray-700 font-medium mb-1">Password</label>
             <input
               type="password"
               name="password"
@@ -467,7 +846,7 @@
             type="submit"
             class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Ingia
+            Login
           </button>
         </form>
       </div>
@@ -476,10 +855,10 @@
     <!-- Register Modal -->
     <div
       id="registerModal"
-      class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-[60]"
     >
       <div
-        class="bg-white rounded-xl w-full max-w-md m-4 p-6 relative mt-40 mb-[100px]"
+        class="bg-white rounded-xl w-full max-w-md m-4 p-6 relative mt-35 mb-6 z-[70]"
       >
         <button
           onclick="hideModal('register')"
@@ -488,7 +867,7 @@
           &times;
         </button>
         <h2 class="text-2xl font-bold text-blue-600 text-center mb-4">
-          Jisajili
+          Register
         </h2>
 
         <div class="flex gap-2 mb-6 bg-gray-100 p-1 rounded-lg">
@@ -497,21 +876,21 @@
             class="flex-1 py-2 rounded-lg transition-colors"
             id="clientTab"
           >
-            Mteja
+            Client
           </button>
           <button
             onclick="showRegisterForm('worker')"
             class="flex-1 py-2 rounded-lg transition-colors"
             id="workerTab"
           >
-            Mfanyakazi
+            Worker
           </button>
         </div>
 
         <form class="space-y-4" action="/register" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <% if (errors) { %>
-          <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+          <div class=" hidden bg-red-100 text-red-700 p-3 rounded-lg mb-4">
             <ul>
               <% errors.forEach(err => { %>
               <li><%= err.msg %></li>
@@ -523,7 +902,7 @@
           <!-- Common Fields -->
           <div>
             <label class="block text-gray-700 font-medium mb-1"
-              >Barua Pepe</label
+              >Email</label
             >
             <input
               type="email"
@@ -534,7 +913,7 @@
           </div>
 
           <div>
-            <label class="block text-gray-700 font-medium mb-1">Nenosiri</label>
+            <label class="block text-gray-700 font-medium mb-1">Password</label>
             <input
               type="password"
               name="password"
@@ -546,10 +925,10 @@
           <!-- Client Form -->
           <div id="clientForm">
             <div class="mb-6">
-              <h4 class="text-md font-semibold mb-3">Taarifa za Mteja</h4>
+              <h4 class="text-md font-semibold mb-3">Client's Info</h4>
               <div>
                 <label class="block text-gray-700 font-medium mb-1"
-                  >Jina Kamili</label
+                  >Full Name</label
                 >
                 <input
                   type="text"
@@ -563,10 +942,10 @@
           <!-- Worker Form -->
           <div id="workerForm" class="hidden">
             <div class="mb-6">
-              <h4 class="text-md font-semibold mb-3">Taarifa za Mfanyakazi</h4>
+              <h4 class="text-md font-semibold mb-3">Worker's Info</h4>
               <div>
                 <label class="block text-gray-700 font-medium mb-1"
-                  >Jina Kamili</label
+                  >Full Name</label
                 >
                 <input
                   type="text"
@@ -576,10 +955,10 @@
               </div>
               <div>
                 <label class="block text-gray-700 font-medium mb-1"
-                  >Aina ya Huduma</label
+                  >Type of Service</label
                 >
                 <select name="service" class="w-full p-2 border rounded-lg">
-                  <option value="">Chagua Huduma</option>
+                  <option value="">Select service</option>
                   <% services.forEach(service => { %>
                   <option value="<%= service.service_id %>">
                     <%= service.service_name %>
@@ -594,7 +973,7 @@
             type="submit"
             class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Jisajili Sasa
+            Register Now
           </button>
         </form>
       </div>
@@ -685,22 +1064,28 @@
       }
 
       // Mobile Menu Handling
-      document.addEventListener("DOMContentLoaded", () => {
-        const mobileMenu = document.getElementById("mobileMenu");
-        const menuToggle = document.getElementById("menu-toggle");
-        const closeMenu = document.getElementById("close-menu");
-
-        menuToggle.addEventListener("click", () => {
-          // Show if hidden, hide if shown
-          mobileMenu.classList.toggle("translate-x-full");
-          mobileMenu.classList.toggle("translate-x-0");
-        });
-
-        closeMenu.addEventListener("click", () => {
-          mobileMenu.classList.add("translate-x-full");
-          mobileMenu.classList.remove("translate-x-0");
-        });
+      const mobileMenu = document.getElementById("mobileMenu");
+      const menuToggle = document.getElementById("menu-toggle");
+      const closeMenu = document.getElementById("close-menu");
+    
+      // Open Menu
+      menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("translate-x-full");
       });
+    
+      // Close Menu via Close Button
+      closeMenu.addEventListener("click", () => {
+        mobileMenu.classList.add("translate-x-full");
+      });
+    
+      // Close Menu When Clicking Outside
+      document.addEventListener("click", (event) => {
+        const isClickInside = mobileMenu.contains(event.target) || menuToggle.contains(event.target);
+        if (!isClickInside) {
+          mobileMenu.classList.add("translate-x-full");
+        }
+      });
+        
 
       // Loader Handling
       window.onload = function () {
