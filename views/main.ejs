@@ -70,7 +70,7 @@
             <button
               class="bg-white text-blue-600 px-4 py-2 rounded-full shadow-md hover:bg-gray-200 transition flex items-center"
             >
-              <span class="mr-2"><%= user.email %></span>
+              <span class="mr-2"><%= user.workers?.[0]?.full_name || user.clients?.[0]?.full_name %></span>
               <i class="fas fa-chevron-down text-sm"></i>
             </button>
             <div
@@ -384,8 +384,6 @@
 
       <!-- Call to Action -->
 
-
-      <% if (!user) { %>
       <section class="bg-gray-200 py-16 text-center" id="mission">
            
          
@@ -633,7 +631,7 @@
           </div>
         </div>
       </section>
-      <% } %>
+      
     </main>
 
  <!-- Footer -->
