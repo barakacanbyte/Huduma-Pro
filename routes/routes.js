@@ -6,7 +6,7 @@ import { clientQueries } from "../db/clientQueries.js";
 const servicesList = await services();
 
 const home = async (req, res) => {
-  console.log("services profile", servicesList); //debugging
+  // console.log("services profile", servicesList); //debugging
   res.set({
     "Cache-Control": "no-store, no-cache, must-revalidate, private",
     Pragma: "no-cache",
@@ -62,7 +62,7 @@ const profile = async (req, res, next) => {
 
     const clientId = req.session.user.clients[0].client_id;
     const clientData = await clientQueries.getFullClientProfile(clientId);
-    console.log("client data", clientData); //debugging
+    // console.log("client data", clientData); //debugging
 
     res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
     res.render("client-profile", {
@@ -73,7 +73,7 @@ const profile = async (req, res, next) => {
     const workerId = req.session.user.workers[0].worker_id;
     const workerData = await workerQueries.getFullWorkerProfile(workerId);
 
-    console.log("worker services", workerData); //debugging
+    // console.log("worker services", workerData); //debugging
 
     res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
     res.render("worker-profile", {
@@ -91,13 +91,13 @@ const profile = async (req, res, next) => {
 
 //update worker profile
 const updateWorker = (req, res, next) => {
-  console.log("update form submitted:", req.body); // Debug log
+  // console.log("update form submitted:", req.body); // Debug log
   next();
 };
 
 //update client profile
 const updateClient = (req, res, next) => {
-  console.log("update form submitted:", req.body); // Debug log
+  // console.log("update form submitted:", req.body); // Debug log
   next();
 };
 

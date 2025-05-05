@@ -9,7 +9,7 @@ export const ServiceSearchController = {
     try {
       const workerData = await workerQueries.getFullWorkersProfile();
       //   const services = await workerQueries.getWorkerServices(workerId);
-      console.log("servicesSearch", workerData[1].user); //debugging
+      // console.log("servicesSearch", workerData[1].user); //debugging
       res.render("service-search", {
         workers: workerData,
         // statusClasses: {

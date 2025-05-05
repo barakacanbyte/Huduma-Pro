@@ -26,10 +26,10 @@ export const workerController = {
   },
 
   updateWorkerProfile: async (req, res) => {
-    console.log("Update worker profile request body:", req.body); //debugging
+    // console.log("Update worker profile request body:", req.body); //debugging
     try {
       const workerId = req.session.user.workers[0].worker_id;
-      console.log("worker id", workerId); //debugging
+      // console.log("worker id", workerId); //debugging
       const { full_name, location, phone, hourly_rate, experience_years, bio } =
         req.body;
 
@@ -50,7 +50,7 @@ export const workerController = {
         experience_years,
         bio,
       });
-      console.log("services to feed", services); //debugging
+      // console.log("services to feed", services); //debugging
       // Update worker services (pass array of service IDs)
       await workerQueries.updateWorkerServices(workerId, services);
 

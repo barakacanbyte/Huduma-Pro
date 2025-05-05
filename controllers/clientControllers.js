@@ -2,10 +2,10 @@ import { clientQueries } from "../db/clientQueries.js";
 
 export const clientController = {
   updateClientProfile: async (req, res) => {
-    console.log("Update client profile request body:", req.body); //debugging
+    // console.log("Update client profile request body:", req.body); //debugging
     try {
       const clientId = req.session.user.clients[0].client_id;
-      console.log("client id", clientId); //debugging
+      // console.log("client id", clientId); //debugging
       const { full_name, location, phone } =
         req.body;
 
