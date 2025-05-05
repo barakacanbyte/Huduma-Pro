@@ -6,14 +6,14 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { doubleCsrf } from "csrf-csrf";
-import { authController } from "./controllers/authControllers.js";
+import { authController } from "../controllers/authControllers.js";
 import flash from "express-flash";
 import { error } from "console";
-import services from "./db/servicesQuery.js";
-import {home, register, login, logout,profile, updateWorker, updateClient} from "./routes/routes.js";
-import {workerController} from "./controllers/workerControllers.js";
-import { clientController } from "./controllers/clientControllers.js";
-import { ServiceSearchController } from "./controllers/serviceSearchControllers.js";
+import services from "../db/servicesQuery.js";
+import {home, register, login, logout,profile, updateWorker, updateClient} from "../routes/routes.js";
+import {workerController} from "../controllers/workerControllers.js";
+import { clientController } from "../controllers/clientControllers.js";
+import { ServiceSearchController } from "../controllers/serviceSearchControllers.js";
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__fileName);
@@ -22,8 +22,8 @@ dotenv.config({ path: path.resolve(__dirname, ".env") });
 const app = express();
 
 // Middleware setup
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "../views"));
+app.use(express.static(path.join(__dirname, "../public")));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
