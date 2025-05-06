@@ -10,13 +10,14 @@
     "start": "node ./api/index.js"
   },
   "engines": {
-    "node": ">=18.x"  
+    "node": ">=18.x"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
+    "@vercel/kv": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",

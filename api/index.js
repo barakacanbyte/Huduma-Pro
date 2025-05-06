@@ -14,12 +14,79 @@ import {home, register, login, logout,profile, updateWorker, updateClient} from 
 import {workerController} from "../controllers/workerControllers.js";
 import { clientController } from "../controllers/clientControllers.js";
 import { ServiceSearchController } from "../controllers/serviceSearchControllers.js";
+import { createClient } from "@vercel/kv";
+import { Store } from "express-session";
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__fileName);
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 const app = express();
+
+//initialize vercel kv
+const kv = createClient({
+  url: process.env.KV_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN,
+})
+
+// Custom Vercel KV session store
+class VercelKVStore extends Store {
+  constructor(kvClient) {
+    super();
+    this.kv = kvClient;
+  }
+
+  async get(sid, callback) {
+    try {
+      const data = await this.kv.get(`sess:${sid}`);
+      if (!data) {
+        return callback(null, null);
+      }
+      // Handle both string and object data
+      if (typeof data === "object") {
+        // Data is already an object, no need to parse
+        return callback(null, data);
+      }
+      if (typeof data !== "string") {
+        console.error(`Invalid session data type for sid ${sid}:`, typeof data);
+        return callback(null, null);
+      }
+      try {
+        const parsed = JSON.parse(data);
+        callback(null, parsed);
+      } catch (parseErr) {
+        console.error(`Failed to parse session data for sid ${sid}:`, parseErr.message);
+        callback(null, null);
+      }
+    } catch (err) {
+      callback(err);
+    }
+  }
+
+  async set(sid, session, callback) {
+    try {
+      // Ensure session is a valid object before stringifying
+      if (!session || typeof session !== "object") {
+        console.error(`Invalid session object for sid ${sid}:`, session);
+        return callback(new Error("Invalid session object"));
+      }
+      const serialized = JSON.stringify(session);
+      await this.kv.set(`sess:${sid}`, serialized, { ex: 24 * 60 * 60 });
+      callback(null);
+    } catch (err) {
+      callback(err);
+    }
+  }
+
+  async destroy(sid, callback) {
+    try {
+      await this.kv.del(`sess:${sid}`);
+      callback(null);
+    } catch (err) {
+      callback(err);
+    }
+  }
+}
 
 // Middleware setup
 app.set("views", path.join(__dirname, "../views"));
@@ -29,14 +96,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Session configuration - must come before CSRF
-app.use(session({ 
+app.use(session({
+  store: new VercelKVStore(kv), // Use the custom Vercel KV store
   secret: process.env.SESSION_SECRET || "your-secret-key", 
   resave: false, 
   saveUninitialized: true, // Changed to true to set cookie immediately
   cookie: { 
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: 'lax'
+    sameSite: 'lax',
+    maxAge: 24 * 60 * 60 * 1000,
   }
 }));
 
@@ -105,7 +174,9 @@ app.use((err, req, res, next) => {
   }
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`Express server is running on port ${port}`);
 });
+
+export default app;
