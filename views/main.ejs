@@ -76,11 +76,18 @@
             <div
               class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl hidden group-hover:block"
             >
+            <% if (user?.workers?.[0]) { %>
               <a
                 href="/profile"
                 class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
-                >Profile</a
-              >
+              >Worker Profile</a>
+            <% } else if (user?.clients) { %>
+              <a
+                href="/profile"
+                class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+              >Client Profile</a>
+            <% } %>
+            
               <!-- <a
                 href="/bookings"
                 class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
@@ -238,7 +245,11 @@
           <div class="mx-auto max-w-6xl">
             <h3 class="mb-10 text-3xl font-bold text-blue-700">
               Our Monthly Impact
-            </h3>
+            </h3><a
+            href="/profile"
+            class="block px-4 py-2 text-gray-800 hover:bg-blue-50"
+            >Worker Profile</a
+          >
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <!-- Card 1 -->
               <div
