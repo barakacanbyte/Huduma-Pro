@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profaili ya Mteja</title>
+    <title>Clients Profile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -23,14 +23,14 @@
         <nav class="container mx-auto flex justify-between items-center">
             <div class="text-2xl font-bold flex items-center">
                 <i class="fas fa-hands-helping mr-2"></i>
-                Huduma Connect
+                Service Connect
             </div>
             <div class="hidden md:flex space-x-6 items-center">
                 <a href="/" class="hover:text-gray-300 transition-colors">Home</a>
                 <a href="/client/services/find" class="hover:text-gray-300 transition-colors">Find Service</a>
                 <div class="relative group">
                     <button class="hover:text-gray-300 transition-colors">
-                        Profaili <i class="fas fa-chevron-down text-sm"></i>
+                       <!-- <i class="fas fa-chevron-down text-sm"></i> -->
                     </button>
                     <div class="absolute hidden group-hover:block bg-white text-gray-800 rounded-lg shadow-md mt-2 py-2 w-48">
                         <a href="client-profile.html" class="block px-4 py-2 hover:bg-blue-50">Mteja</a>
@@ -78,18 +78,18 @@
             <div class="grid md:grid-cols-3 gap-8 mt-8">
                 <!-- Quick Stats -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 animate-fade-in">
-                    <h3 class="text-xl font-semibold mb-4">Takwimu Zako</h3>
+                    <h3 class="text-xl font-semibold mb-4">Your Stats</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                            <span>Ombi Active</span>
+                            <span>Active Request</span>
                             <span class="bg-blue-600 text-white px-3 py-1 rounded-full">5</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
-                            <span>Ombi Kamili</span>
+                            <span>Complete Request</span>
                             <span class="bg-purple-600 text-white px-3 py-1 rounded-full">12</span>
                         </div>
                         <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                            <span>Wafanyakazi Walioaminika</span>
+                            <span>Trusted Workers</span>
                             <span class="bg-green-600 text-white px-3 py-1 rounded-full">8</span>
                         </div>
                     </div>
@@ -97,24 +97,24 @@
 
                 <!-- Recent Bookings -->
                 <div class="md:col-span-2 bg-white rounded-2xl shadow-lg p-6 animate-fade-in">
-                    <h3 class="text-xl font-semibold mb-4">Ombi Hivi Punde</h3>
+                    <h3 class="text-xl font-semibold mb-4">Recent Request</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="text-left py-3 px-4">Huduma</th>
-                                    <th class="text-left py-3 px-4">Tarehe</th>
-                                    <th class="text-left py-3 px-4">Hali</th>
-                                    <th class="text-left py-3 px-4">Hatua</th>
+                                    <th class="text-left py-3 px-4">Services</th>
+                                    <th class="text-left py-3 px-4">Date</th>
+                                    <th class="text-left py-3 px-4">Status</th>
+                                    <th class="text-left py-3 px-4">Track</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="border-b hover:bg-gray-50">
-                                    <td class="py-3 px-4">Usafi wa Nyumba</td>
+                                    <td class="py-3 px-4">Cleaning </td>
                                     <td class="py-3 px-4">12 Jan 2024</td>
                                     <td class="py-3 px-4">
                                         <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">
-                                            Inasubiri
+                                            Pending
                                         </span>
                                     </td>
                                     <td class="py-3 px-4">
@@ -135,7 +135,7 @@
                 <a href="/client/service/find" 
                    class="inline-block bg-gradient-to-r from-green-500 to-blue-600 text-white px-8 py-3 rounded-full 
                           hover:shadow-lg transition-all duration-300">
-                    <i class="fas fa-search mr-2"></i>Tafuta Huduma Mpya
+                    <i class="fas fa-search mr-2"></i>Search for new services
                 </a>
             </div>
         </div>
