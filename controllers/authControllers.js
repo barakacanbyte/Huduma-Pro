@@ -196,7 +196,19 @@ export const authController = {
           .insert(rolesToInsert);
       }
 
-      req.session.user = user;
+       // Get full user data
+       const { data: fullUser, error: profileError } = await supabase
+       .from('users')
+       .select(`
+         *,
+         clients:clients(*),
+         workers:workers(*, services:worker_services(*))
+       `)
+       .eq('user_id', user.user_id)
+       .single();
+
+      req.session.user = fullUser;
+
       res.redirect('/');
     } catch (err) {
       console.error('Registration error:', err);
